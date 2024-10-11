@@ -9,10 +9,11 @@ import SwiftUI
 
 struct HomeScreen: View {
     @Environment(AppRouter.self) var router
+    @Environment(\.homeViewModelValue) var viewModel
     
     var body: some View {
         VStack {
-            Text("Home Screen")
+            Text("Home Screen \(viewModel?.update ?? -1)")
         }
 //        .navigationTitle("Home")
     }
@@ -20,5 +21,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen()
+//    HomeScreen()
 }

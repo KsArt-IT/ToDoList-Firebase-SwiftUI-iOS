@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var router = AppRouter(.splash)
+    @State private var homeViewModel: HomeViewModel?
     
     var body: some View {
         NavigationStack(path: $router.navigationPath) {
             HomeScreen()
                 .environment(router)
+                .environment(\.homeViewModelValue, homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .home:
@@ -26,6 +28,10 @@ struct ContentView: View {
                             .navigationBarBackButtonHidden(true)
                             .interactiveDismissDisabled()
                             .onAppear {
+                                Task{
+                                    DIManager.shared.registerHomeViewModel()
+                                    homeViewModel = DIManager.shared.resolve(HomeViewModel.self)
+                                }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     router.navigateToRoot()
                                 }

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F1E8BD192CB94C7400C713AD /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = F1E8BD182CB94C7400C713AD /* Swinject */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F1F813EC2CB7D9C900B4B8B5 /* ToDoList-SUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-SUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1E8BD192CB94C7400C713AD /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "ToDoList-SUI";
 			packageProductDependencies = (
+				F1E8BD182CB94C7400C713AD /* Swinject */,
 			);
 			productName = "ToDoList-SUI";
 			productReference = F1F813EC2CB7D9C900B4B8B5 /* ToDoList-SUI.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = F1F813E32CB7D9C900B4B8B5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1F813ED2CB7D9C900B4B8B5 /* Products */;
 			projectDirPath = "";
@@ -336,6 +345,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F1E8BD182CB94C7400C713AD /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F1F813E42CB7D9C900B4B8B5 /* Project object */;
 }

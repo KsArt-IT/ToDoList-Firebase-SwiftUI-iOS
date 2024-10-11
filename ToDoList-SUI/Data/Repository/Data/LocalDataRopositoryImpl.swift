@@ -8,7 +8,11 @@
 import Foundation
 
 final class LocalDataRopositoryImpl: DataRepository {
-    private let service: DataService = LocalDataServiceImpl.shared
+    private let service: DataService
+    
+    init(service: DataService) {
+        self.service = service
+    }
     
     func fetchData() async -> Result<[ToDoItem], any Error> {
         await service.fetchData()

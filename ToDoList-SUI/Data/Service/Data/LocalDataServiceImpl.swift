@@ -9,7 +9,6 @@
 import Foundation
 
 final class LocalDataServiceImpl: DataService {
-    static let shared = LocalDataServiceImpl(); private init() {}
     
     private var items: [String: ToDoItem] = [:]
 
