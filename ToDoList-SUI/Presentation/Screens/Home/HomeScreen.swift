@@ -8,37 +8,40 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    @Environment(\.homeViewModel) var viewModel
+    @State private var viewModel: HomeViewModel
+    
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             BackgroundView()
             
-            if let list = viewModel?.list {
-                LazyVStack {
-                    ForEach(list) { item in
-                        ItemView(item: item)
-                    }
+            LazyVStack {
+                ForEach(viewModel.list) { item in
+                    ItemView(item: item)
                 }
-            } else {
-                Text("Empty")
             }
         }
         .navigationTitle("To Do List")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    viewModel?.edit()
+                    viewModel.edit()
                 } label: {
                     Image(systemName: "plus")
                 }
             }
+        }
+        .onAppear {
+            print("релоад: \(#function)")
+            viewModel.reload()
         }
     }
     
 }
 
 #Preview {
-    HomeScreen()
-        .environment(\.homeViewModel, nil)
+    HomeScreen(viewModel: DIManager.shared.resolve())
 }

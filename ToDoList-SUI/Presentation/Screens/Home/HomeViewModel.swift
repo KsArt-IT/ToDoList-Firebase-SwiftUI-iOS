@@ -12,10 +12,7 @@ final class HomeViewModel {
     
     @ObservationIgnored private let router: Router
     @ObservationIgnored private let repository: DataRepository
-    @ObservationIgnored private var items: [ToDoItem] = []
-    var list:[ToDoItem] {
-        items
-    }
+    var list: [ToDoItem] = []
     
     var update = 0
     
@@ -35,12 +32,16 @@ final class HomeViewModel {
             let result = await self.repository.fetchData()
             switch result {
             case .success(let data):
-                self.items = data
+                self.list = data
                 self.update += 1
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    public func reload() {
+        fetchData()
     }
     
     public func edit(id: String = "") {

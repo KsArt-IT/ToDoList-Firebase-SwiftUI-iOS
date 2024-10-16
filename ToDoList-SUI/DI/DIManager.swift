@@ -36,13 +36,13 @@ class DIManager {
     
     private func registerHomeViewModel() {
         print(#function)
-        // Регестрируем Optional
-        container.register(HomeViewModel?.self) { r in
+        container.register(HomeViewModel.self) { r in
             HomeViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(DataRepository.self)!
             )
         }
+        .inObjectScope(.weak)
     }
     
     private func registerEditViewModel() {

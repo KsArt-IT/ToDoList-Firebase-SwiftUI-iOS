@@ -13,7 +13,7 @@ final class LocalDataServiceImpl: DataService {
     private var items: [String: ToDoItem] = [:]
 
     func fetchData() async -> Result<[ToDoItem], any Error> {
-        .success(Array(items.values))
+        return .success(Array(items.values))
     }
     
     func fetchData(_ id: String) async -> Result<ToDoItem?, any Error> {
