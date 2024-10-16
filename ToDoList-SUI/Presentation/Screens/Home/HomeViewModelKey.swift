@@ -17,9 +17,3 @@ extension EnvironmentValues {
         set { self[HomeViewModelKey.self] = newValue }
     }
 }
-
-extension View {
-    func environmentHome(_ value: HomeViewModel?) -> some View {
-        environment(\.homeViewModelValue, value)
-    }
-}

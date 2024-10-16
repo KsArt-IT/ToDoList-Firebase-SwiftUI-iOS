@@ -16,6 +16,10 @@ final class LocalDataServiceImpl: DataService {
         .success(Array(items.values))
     }
     
+    func fetchData(_ id: String) async -> Result<ToDoItem?, any Error> {
+        .success(items[id])
+    }
+    
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error> {
         items[item.id] = item
         return .success(true)

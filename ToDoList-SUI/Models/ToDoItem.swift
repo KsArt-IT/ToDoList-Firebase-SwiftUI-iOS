@@ -7,13 +7,30 @@
 
 import Foundation
 
-struct ToDoItem: Identifiable, Equatable {
+struct ToDoItem: Identifiable, Hashable, Comparable {
     let id: String
     let date: Date
     let title: String
     let text: String
     let isCritical: Bool
     let isCompleted: Bool
+}
+
+extension ToDoItem {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(date)
+        hasher.combine(title)
+        hasher.combine(text)
+    }
+
+    static func ==(lhs: Self, rhs: Self) -> Bool {
+        lhs.date == rhs.date && lhs.title == rhs.title && lhs.text == rhs.text
+    }
+    
+    // Реализуем оператор меньше для сравнения задач по дате
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.date < rhs.date || lhs.title < rhs.title || lhs.text < rhs.text
+    }
 }
 
 extension ToDoItem {

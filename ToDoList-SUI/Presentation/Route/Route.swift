@@ -8,4 +8,5 @@
 enum Route: Hashable {
     case splash
     case home
+    case edit(id: String)
 }

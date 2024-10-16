@@ -8,18 +8,32 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    @Environment(AppRouter.self) var router
+    @Environment(\.router) var router
     @Environment(\.homeViewModelValue) var viewModel
     
     var body: some View {
-        VStack {
-            Text("Home Screen \(viewModel?.update ?? -1)")
+        ZStack {
+            LinearGradient(
+                colors: [.backgroundFirst, .backgroundSecond],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            if let list = viewModel?.list {
+                LazyVStack {
+                    ForEach(list) { item in
+                        ItemView(item: item)
+                    }
+                }
+            } else {
+                Text("Empty")
+            }
         }
-//        .navigationTitle("Home")
     }
     
 }
 
 #Preview {
-//    HomeScreen()
+    HomeScreen()
+        .environment(\.homeViewModelValue, nil)
 }

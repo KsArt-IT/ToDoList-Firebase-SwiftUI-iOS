@@ -13,9 +13,14 @@ class DIManager {
 
     private init() {
         container = Container()
+        registerRouter()
     }
 
     // Регистрация зависимостей
+    func registerRouter() {
+        container.register(Router.self) { _ in RouterApp(.splash) }
+    }
+    
     private func registerReposiroty() {
         guard container.resolve(DataRepository.self) == nil else { return }
         
@@ -35,5 +40,8 @@ class DIManager {
         return container.resolve(type)
     }
     
+    func resolve<T>() -> T {
+        return container.resolve(T.self)!
+    }
     
 }

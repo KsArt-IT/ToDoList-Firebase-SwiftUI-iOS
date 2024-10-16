@@ -8,7 +8,7 @@
 import SwiftUI
 
 @Observable
-final class AppRouter: AnyObject {
+final class RouterApp: Router {
     var navigationPath = NavigationPath()
     
     init(_ start: Route? = nil) {
@@ -36,4 +36,11 @@ final class AppRouter: AnyObject {
         navigationPath.removeLast()
     }
     
+}
+
+protocol Router: AnyObject {
+    var navigationPath: NavigationPath { get set }
+    func navigate(to route: Route)
+    func navigateToRoot()
+    func back()
 }

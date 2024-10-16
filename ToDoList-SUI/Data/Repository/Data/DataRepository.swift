@@ -9,6 +9,7 @@ import Foundation
 
 protocol DataRepository: AnyObject {
     func fetchData() async -> Result<[ToDoItem], any Error>
+    func fetchData(_ id: String) async -> Result<ToDoItem?, any Error>
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error>
     func deleteData(_ id: String) async -> Result<Bool, any Error>
 }

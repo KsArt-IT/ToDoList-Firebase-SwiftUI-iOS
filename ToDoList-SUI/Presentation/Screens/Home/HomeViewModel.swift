@@ -12,6 +12,9 @@ final class HomeViewModel {
     
     @ObservationIgnored private let repository: DataRepository
     @ObservationIgnored private var items: [ToDoItem] = []
+    var list:[ToDoItem] {
+        items
+    }
     
     var update = 0
     

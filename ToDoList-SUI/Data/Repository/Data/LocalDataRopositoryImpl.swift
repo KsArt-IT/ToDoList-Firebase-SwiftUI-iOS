@@ -18,6 +18,10 @@ final class LocalDataRopositoryImpl: DataRepository {
         await service.fetchData()
     }
     
+    func fetchData(_ id: String) async -> Result<ToDoItem?, any Error> {
+        await service.fetchData(id)
+    }
+    
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error> {
         if item.id.isEmpty {
             await service.saveData(item.copy(id: UUID().uuidString))
