@@ -16,12 +16,16 @@ struct EditScreen: View {
     }
     
     var body: some View {
-        VStack{
-            Text(viewModel?.item?.title ?? "")
-            Button {
-                viewModel?.save()
-            } label: {
-                Text(Strings.buttonSave)
+        ZStack{
+            BackgroundView()
+            
+            VStack{
+                Text(viewModel?.item?.title ?? "")
+                Button {
+                    viewModel?.save()
+                } label: {
+                    Text(Strings.buttonSave)
+                }
             }
         }
         .navigationTitle("Edit")

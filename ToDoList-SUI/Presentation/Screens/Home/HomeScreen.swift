@@ -12,12 +12,8 @@ struct HomeScreen: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [.backgroundFirst, .backgroundSecond],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            BackgroundView()
+            
             if let list = viewModel?.list {
                 LazyVStack {
                     ForEach(list) { item in
