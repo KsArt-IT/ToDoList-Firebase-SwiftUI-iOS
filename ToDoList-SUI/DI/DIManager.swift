@@ -11,14 +11,14 @@ import Swinject
 class DIManager {
     static let shared = DIManager()
     private let container: Container = Container()
-
+    
     private init() {
         registerRouter()
         registerReposiroty()
         registerHomeViewModel()
         registerEditViewModel()
     }
-
+    
     //MARK: - Регистрация зависимостей
     private func registerRouter() {
         print(#function)
@@ -47,8 +47,7 @@ class DIManager {
     
     private func registerEditViewModel() {
         print(#function)
-        // Регестрируем Optional
-        container.register(EditViewModel?.self) { r in
+        container.register(EditViewModel.self) { r in
             EditViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(DataRepository.self)!

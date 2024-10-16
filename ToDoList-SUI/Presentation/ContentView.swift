@@ -23,8 +23,7 @@ struct ContentView: View {
                                 router.navigateToRoot()
                             }
                     case .edit(let id):
-                        EditScreen(id)
-                            .environment(\.editViewModel, DIManager.shared.resolve())
+                        EditScreen(id, viewModel: DIManager.shared.resolve())
                     case .splash:
                         SplashScreen()
                             .navigationBarBackButtonHidden(true)

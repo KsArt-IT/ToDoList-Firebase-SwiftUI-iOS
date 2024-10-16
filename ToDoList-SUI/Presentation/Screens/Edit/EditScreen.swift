@@ -8,34 +8,74 @@
 import SwiftUI
 
 struct EditScreen: View {
-    @Environment(\.editViewModel) var viewModel
-    @State var id: String
+    @State var viewModel: EditViewModel
     
-    init(_ id: String = "") {
-        self.id = id
+    init(_ id: String = "", viewModel: EditViewModel) {
+        self.viewModel = viewModel
+        self.viewModel.loadItem(id)
     }
     
+    // MARK: - Body
     var body: some View {
         ZStack{
             BackgroundView()
             
             VStack{
-                Text(viewModel?.item?.title ?? "")
-                Button {
-                    viewModel?.save()
-                } label: {
-                    Text(Strings.buttonSave)
+                TextField("Task title", text: $viewModel.title)
+                    .font(.headline)
+                    .padding()
+                    .background()
+                    .cornerRadius(10)
+                    .padding()
+                TextField("Task text", text: $viewModel.text)
+                    .font(.subheadline)
+                    .padding()
+                    .background()
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+                DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
+                    .padding()
+                DatePicker("Time", selection: $viewModel.date, displayedComponents: .hourAndMinute)
+                    .padding(.horizontal)
+                Toggle(isOn: $viewModel.isCritical) {
+                    Text("Important task")
                 }
+                .padding()
+                Button {
+                    viewModel.save()
+                } label: {
+                    Text("Save")
+                        .foregroundStyle(.primary)
+                        .padding(.vertical)
+                        .frame(maxWidth: .infinity)
+                        .background()
+                        .cornerRadius(10)
+                        .padding()
+                }
+                
+                Spacer()
             }
         }
-        .navigationTitle("Edit")
+        // MARK: - Navigation
+        .navigationTitle(viewModel.newTask ? "New task" : "Edit")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            viewModel?.getItem(id)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button {
+                    viewModel.toBack()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .foregroundStyle(.accent)
+                }
+            }
         }
     }
 }
 
 #Preview {
-    EditScreen()
+    NavigationView {
+        EditScreen(viewModel: DIManager.shared.resolve())
+    }
 }
