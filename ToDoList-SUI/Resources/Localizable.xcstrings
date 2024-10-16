@@ -1,0 +1,35 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Edit" : {
+
+    },
+    "Empty" : {
+
+    },
+    "KsArT.pro" : {
+
+    },
+    "Save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зберегти"
+          }
+        }
+      }
+    },
+    "To Do List" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -23,7 +23,7 @@ extension ToDoItem {
         hasher.combine(text)
     }
 
-    static func ==(lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.date == rhs.date && lhs.title == rhs.title && lhs.text == rhs.text
     }
     

@@ -10,6 +10,7 @@ import Foundation
 @Observable
 final class HomeViewModel {
     
+    @ObservationIgnored private let router: Router
     @ObservationIgnored private let repository: DataRepository
     @ObservationIgnored private var items: [ToDoItem] = []
     var list:[ToDoItem] {
@@ -18,8 +19,9 @@ final class HomeViewModel {
     
     var update = 0
     
-    init(repository: DataRepository) {
-        print(#function)
+    init(router: Router, repository: DataRepository) {
+        print("HomeViewModel: \(#function)")
+        self.router = router
         self.repository = repository
         
         fetchData()
@@ -40,4 +42,9 @@ final class HomeViewModel {
             }
         }
     }
+    
+    public func edit(id: String = "") {
+        router.navigate(to: .edit(id: id))
+    }
+    
 }

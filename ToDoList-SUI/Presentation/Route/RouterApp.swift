@@ -28,7 +28,7 @@ final class RouterApp: Router {
         
         navigationPath.removeLast(navigationPath.count)
     }
-
+    
     /// Вернуться назад
     func back() {
         guard !navigationPath.isEmpty else { return }

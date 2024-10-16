@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct EditScreen: View {
-    @Environment(\.router) var router
-    @Environment(EditViewModel.self) var viewModel: EditViewModel?
+    @Environment(\.editViewModel) var viewModel
+    @State var id: String
     
     init(_ id: String = "") {
-        self.viewModel?.getItem(id)
+        self.id = id
     }
     
     var body: some View {
-        Text(viewModel?.item?.title ?? "")
-        Button {
-            viewModel?.save()
-        } label: {
-            Text("Save")
+        VStack{
+            Text(viewModel?.item?.title ?? "")
+            Button {
+                viewModel?.save()
+            } label: {
+                Text(Strings.buttonSave)
+            }
+        }
+        .navigationTitle("Edit")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel?.getItem(id)
         }
     }
 }

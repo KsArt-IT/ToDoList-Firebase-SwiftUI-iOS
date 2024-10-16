@@ -14,8 +14,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $router.navigationPath) {
             HomeScreen()
-                .environment(\.router, router)
-                .environment(\.homeViewModelValue, homeViewModel)
+                .environment(\.homeViewModel, homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .home:
@@ -25,8 +24,7 @@ struct ContentView: View {
                             }
                     case .edit(let id):
                         EditScreen(id)
-                            .environment(\.router, router)
-                            .environment(DIManager.shared.resolve(EditViewModel.self))
+                            .environment(\.editViewModel, DIManager.shared.resolve())
                     case .splash:
                         SplashScreen()
                             .navigationBarBackButtonHidden(true)
@@ -36,24 +34,13 @@ struct ContentView: View {
                             }
                     }
                 }
-                .navigationTitle("To Do List")
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            router.navigate(to: .edit(id: ""))
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                    }
-                }
         }
     }
 }
 
 extension ContentView {
     private func initDataAndGoHome() {
-        Task{
-            DIManager.shared.registerHomeViewModel()
+        Task {
             homeViewModel = DIManager.shared.resolve()
             sleep(1)
             router.navigateToRoot()

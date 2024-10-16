@@ -10,17 +10,21 @@ import SwiftUI
 @Observable
 final class EditViewModel {
     
+    @ObservationIgnored private let router: Router
     @ObservationIgnored private let repository: DataRepository
     
     var item: ToDoItem?
-    var isClose = false
     
-    init(repository: DataRepository) {
-        print(#function)
+    init(router: Router, repository: DataRepository) {
+        print("EditViewModel: \(#function)")
+        self.router = router
         self.repository = repository
     }
     
     public func getItem(_ id: String) {
+        guard item == nil else { return }
+        
+        print("EditViewModel: \(#function): \(id)")
         if id.isEmpty {
             item = getNewItem()
         } else {
@@ -29,15 +33,18 @@ final class EditViewModel {
     }
     
     public func save() {
+        print("EditViewModel: \(#function)")
         guard let item else { return }
         
         Task { [weak self] in
             let result = await self?.repository.saveData(item)
+            self?.toBack()
             switch result {
             case .success(_):
-                self?.isClose = true
+                self?.toBack()
             case .failure(let error):
                 print("Error: \(error)")
+                self?.toBack()
             case .none:
                 break
             }
@@ -60,5 +67,15 @@ final class EditViewModel {
     
     private func getNewItem() -> ToDoItem {
         ToDoItem(id: UUID().uuidString, date: Date(), title: "", text: "", isCritical: false, isCompleted: false)
+    }
+    
+    // MARK: - Nagigation
+    
+    private func toBack() {
+        print(#function)
+        router.back()
+//        DispatchQueue.main.async { [weak self] in
+//            self?.router.back()
+//        }
     }
 }

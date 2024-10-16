@@ -12,7 +12,7 @@ private struct HomeViewModelKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var homeViewModelValue: HomeViewModel? {
+    var homeViewModel: HomeViewModel? {
         get { self[HomeViewModelKey.self] }
         set { self[HomeViewModelKey.self] = newValue }
     }

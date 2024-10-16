@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    @Environment(\.router) var router
-    @Environment(\.homeViewModelValue) var viewModel
+    @Environment(\.homeViewModel) var viewModel
     
     var body: some View {
         ZStack {
@@ -29,11 +28,21 @@ struct HomeScreen: View {
                 Text("Empty")
             }
         }
+        .navigationTitle("To Do List")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    viewModel?.edit()
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
     }
     
 }
 
 #Preview {
     HomeScreen()
-        .environment(\.homeViewModelValue, nil)
+        .environment(\.homeViewModel, nil)
 }
