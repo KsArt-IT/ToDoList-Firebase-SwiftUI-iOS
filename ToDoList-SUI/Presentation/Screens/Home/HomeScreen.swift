@@ -18,11 +18,14 @@ struct HomeScreen: View {
         ZStack(alignment: .top) {
             BackgroundView()
             
-            LazyVStack {
+            List {
                 ForEach(viewModel.list) { item in
-                    ItemView(item: item)
+                    ItemView(item: item) { id in
+                        viewModel.edit(id: id)
+                    }
                 }
             }
+            .listStyle(.plain)
         }
         .navigationTitle("To Do List")
         .toolbar {
@@ -39,5 +42,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen(viewModel: DIManager.shared.resolve())
+    HomeScreen(viewModel: HomeViewModel(router: RouterApp(), repository: DataRepositoryPreview()))
 }

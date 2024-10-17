@@ -26,35 +26,33 @@ struct EditScreen: View {
                     .padding()
                     .background()
                     .cornerRadius(10)
-                    .padding()
+                    .padding(.vertical)
                 TextField("Task text", text: $viewModel.text)
                     .font(.subheadline)
                     .padding()
                     .background()
                     .cornerRadius(10)
-                    .padding(.horizontal)
                 DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
-                    .padding()
+                    .padding(.vertical)
                 DatePicker("Time", selection: $viewModel.date, displayedComponents: .hourAndMinute)
-                    .padding(.horizontal)
                 Toggle(isOn: $viewModel.isCritical) {
                     Text("Important task")
                 }
-                .padding()
+                .padding(.vertical)
                 Button {
                     viewModel.save()
                 } label: {
                     Text("Save")
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(.text)
                         .padding(.vertical)
                         .frame(maxWidth: .infinity)
-                        .background()
+                        .background(Color.background)
                         .cornerRadius(10)
-                        .padding()
                 }
                 
                 Spacer()
             }
+            .padding()
         }
         // MARK: - Navigation
         .navigationTitle(viewModel.newTask ? "New task" : "Edit")

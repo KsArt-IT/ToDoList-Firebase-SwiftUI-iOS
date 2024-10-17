@@ -36,7 +36,10 @@ final class HomeViewModel {
     
     private func loadData(by id: String) {
         print("HomeViewModel: \(#function) id='\(id)'")
-        guard !id.isEmpty else { return }
+        guard !id.isEmpty else {
+            loadData()
+            return
+        }
         
         Task { [weak self] in
             let result = await self?.repository.fetchData(id)
