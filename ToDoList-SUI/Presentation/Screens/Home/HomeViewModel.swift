@@ -28,33 +28,6 @@ final class HomeViewModel {
         subscribeUpdate()
     }
     
-    private func subscribeUpdate() {
-        repository.updatePublisher
-            .sink(receiveValue: loadData)
-            .store(in: &cancellables)
-    }
-    
-    private func loadData(by id: String) {
-        print("HomeViewModel: \(#function) id='\(id)'")
-        guard !id.isEmpty else {
-            loadData()
-            return
-        }
-        
-        Task { [weak self] in
-            let result = await self?.repository.fetchData(id)
-            switch result {
-            case .success(let item):
-                guard let item else { break }
-                self?.list.append(item)
-            case .failure(let error):
-                self?.showError(error)
-            case .none:
-                break
-            }
-        }
-    }
-    
     public func reloadData() {
         // вызывать каждый раз
         fetchData()
@@ -88,6 +61,41 @@ final class HomeViewModel {
     
     public func edit(id: String = "") {
         router.navigate(to: .edit(id: id))
+    }
+    
+    private func subscribeUpdate() {
+        repository.updatePublisher
+            .sink(receiveValue: loadData)
+            .store(in: &cancellables)
+    }
+    
+    private func loadData(by id: String) {
+        print("HomeViewModel: \(#function) id='\(id)'")
+        guard !id.isEmpty else {
+            loadData()
+            return
+        }
+        
+        Task { [weak self] in
+            let result = await self?.repository.fetchData(id)
+            switch result {
+            case .success(let item):
+                guard let item else { break }
+                self?.updateItem(item)
+            case .failure(let error):
+                self?.showError(error)
+            case .none:
+                break
+            }
+        }
+    }
+    
+    private func updateItem(_ item: ToDoItem) {
+        if let index = list.firstIndex(where: { $0.id == item.id }) {
+            list[index] = item
+        } else {
+            list.append(item)
+        }
     }
     
     private func showError(_ error: Error) {
