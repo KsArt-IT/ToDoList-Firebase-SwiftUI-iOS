@@ -9,10 +9,12 @@ import SwiftUI
 
 struct ItemView: View {
     private let item: ToDoItem
+    private let toggle: (String) -> Void
     private let action: (String) -> Void
     
-    init(item: ToDoItem, action: @escaping (String) -> Void) {
+    init(item: ToDoItem, toggle:  @escaping (String) -> Void, action: @escaping (String) -> Void) {
         self.item = item
+        self.toggle = toggle
         self.action = action
     }
     
@@ -29,12 +31,15 @@ struct ItemView: View {
             }
             Spacer()
             Button {
-                action(item.id)
+                toggle(item.id)
             } label: {
                 Image(systemName: item.isCompleted ? "checkmark.seal.fill" : "seal")
             }
             .padding(8)
             .buttonStyle(.borderless)
+        }
+        .onTapGesture {
+            action(item.id)
         }
         .padding()
         .background(Color.clear)
@@ -47,11 +52,15 @@ struct ItemView: View {
 #Preview {
     List {
         ItemView(
-            item: ToDoItem(id: "1", date: Date(), title: "Title", text: "make", isCritical: true, isCompleted: false)
-        ) {_ in }
+            item: ToDoItem(id: "1", date: Date(), title: "Title 1", text: "make", isCritical: true, isCompleted: false),
+            toggle: {_ in },
+            action: {_ in }
+        )
         ItemView(
-            item: ToDoItem(id: "1", date: Date(), title: "Title", text: "make", isCritical: false, isCompleted: true)
-        ) {_ in }
+            item: ToDoItem(id: "2", date: Date(), title: "Title 2", text: "make", isCritical: true, isCompleted: false),
+            toggle: {_ in },
+            action: {_ in }
+        )
     }
 }
 

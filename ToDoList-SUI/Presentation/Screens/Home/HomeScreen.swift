@@ -20,10 +20,9 @@ struct HomeScreen: View {
             
             List {
                 ForEach(viewModel.list) { item in
-                    ItemView(item: item) { id in
-                        viewModel.edit(id: id)
-                    }
+                    ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
                 }
+                .onDelete(perform: viewModel.delete)
             }
             .listStyle(.plain)
         }

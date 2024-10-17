@@ -28,6 +28,47 @@ final class HomeViewModel {
         subscribeUpdate()
     }
     
+    public func toggleCompleted(_ id: String) {
+        guard let index = list.firstIndex(where: { $0.id == id }) else { return }
+        var item = list[index]
+        item = item.copy(isCompleted: !item.isCompleted)
+        list[index] = item
+        print("\(#function) completed=\(item.isCompleted)")
+        Task { [weak self] in
+            let result = await self?.repository.saveData(item)
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                self?.showError(error)
+            case .none:
+                break
+            }
+        }
+    }
+    
+    public func delete(_ set: IndexSet) {
+        guard !set.isEmpty else { return }
+        
+        set.forEach { delete($0) }
+    }
+    
+    private func delete(_ index: Int) {
+        let item = list.remove(at: index)
+        Task { [weak self] in
+            let result = await self?.repository.deleteData(item.id)
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                self?.list.append(item)
+                self?.showError(error)
+            case .none:
+                break
+            }
+        }
+    }
+
     public func reloadData() {
         // вызывать каждый раз
         fetchData()
@@ -91,6 +132,7 @@ final class HomeViewModel {
     }
     
     private func updateItem(_ item: ToDoItem) {
+        print("\(#function) completed=\(item.isCompleted)")
         if let index = list.firstIndex(where: { $0.id == item.id }) {
             list[index] = item
         } else {
