@@ -36,7 +36,7 @@ struct HomeScreen: View {
         }
         .onAppear {
             print("релоад: \(#function)")
-            viewModel.reload()
+            viewModel.loadData()
         }
     }
     

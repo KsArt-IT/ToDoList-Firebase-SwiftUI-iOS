@@ -9,12 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var router: Router = DIManager.shared.resolve()
-//    @State private var homeViewModel: HomeViewModel?
+    @State private var homeViewModel: HomeViewModel = DIManager.shared.resolve()
     
     var body: some View {
         NavigationStack(path: $router.navigationPath) {
-            HomeScreen(viewModel: DIManager.shared.resolve())
-//                .environment(\.homeViewModel, homeViewModel)
+            HomeScreen(viewModel: homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .home:
@@ -40,9 +39,8 @@ struct ContentView: View {
 extension ContentView {
     private func initDataAndGoHome() {
         Task {
-//            homeViewModel = DIManager.shared.resolve()
-            // bнициализация
-            _ = DIManager.shared.resolve(HomeViewModel.self)
+            // инициализация
+            homeViewModel.loadData()
             sleep(1)
             router.navigateToRoot()
         }
