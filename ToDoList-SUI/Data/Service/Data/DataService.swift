@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 protocol DataService: AnyObject {
     func fetchData() async -> Result<[ToDoItem], any Error>
@@ -13,4 +14,6 @@ protocol DataService: AnyObject {
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error>
     func updateData(_ item: ToDoItem) async -> Result<Bool, any Error>
     func deleteData(_ id: String) async -> Result<Bool, any Error>
+    
+    var updatePublisher: AnyPublisher<String, Never> { get }
 }

@@ -5,13 +5,17 @@
 //  Created by KsArT on 11.10.2024.
 //
 
-
 import Foundation
+import Combine
 
 final class LocalDataServiceImpl: DataService {
     
     private var items: [String: ToDoItem] = [:]
-
+    private let updateSubject = PassthroughSubject<String, Never>()
+    public var updatePublisher: AnyPublisher<String, Never> {
+        updateSubject.eraseToAnyPublisher()
+    }
+    
     func fetchData() async -> Result<[ToDoItem], any Error> {
         return .success(Array(items.values))
     }
@@ -22,6 +26,7 @@ final class LocalDataServiceImpl: DataService {
     
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error> {
         items[item.id] = item
+        updateSubject.send(item.id)
         return .success(true)
     }
     

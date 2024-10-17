@@ -34,10 +34,6 @@ struct HomeScreen: View {
                 }
             }
         }
-        .onAppear {
-            print("релоад: \(#function)")
-            viewModel.loadData()
-        }
     }
     
 }

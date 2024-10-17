@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Combine
 
 final class LocalDataRopositoryImpl: DataRepository {
     private let service: DataService
     
+    var updatePublisher: AnyPublisher<String, Never> { service.updatePublisher }
+
     init(service: DataService) {
         self.service = service
     }
