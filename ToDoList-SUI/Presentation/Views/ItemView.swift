@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ItemView: View {
-    private let item: ToDoItem
+    private var item: ToDoItem
     private let toggle: (String) -> Void
     private let action: (String) -> Void
     
@@ -23,9 +23,11 @@ struct ItemView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .font(.title2)
+                    .lineLimit(1)
                     .strikethrough(item.isCompleted)
                 Text(item.text)
                     .font(.subheadline)
+                    .lineLimit(3)
                 Text(item.date.toStringDateTime())
                     .font(.subheadline)
             }
@@ -42,10 +44,11 @@ struct ItemView: View {
             action(item.id)
         }
         .padding()
-        .background(Color.clear)
+        .background(Color.backgroundFirst.opacity(0.2))
         .cornerRadius(10)
+        .listRowInsets(.init(top: 4, leading: 8, bottom: 4, trailing: 8))
         .listRowBackground(Color.clear)
-        .padding(.vertical)
+        .listRowSeparator(.hidden)
     }
 }
 

@@ -15,11 +15,11 @@ final class HomeViewModel {
     @ObservationIgnored private let repository: DataRepository
     @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
     
-    var list: [ToDoItem] = []
+    @ObservationIgnored private var taskLoadData: Task<(), Never>?
+    @ObservationIgnored private var timeLoadData: Date?
+    @ObservationIgnored private let timeDelay: TimeInterval = 20
     
-    private var taskLoadData: Task<(), Never>?
-    private var timeLoadData: Date?
-    private let timeDelay: TimeInterval = 20
+    var list: [ToDoItem] = []
     
     init(router: Router, repository: DataRepository) {
         print("HomeViewModel: \(#function)")
@@ -29,13 +29,10 @@ final class HomeViewModel {
     }
     
     public func toggleCompleted(_ id: String) {
-        guard let index = list.firstIndex(where: { $0.id == id }) else { return }
-        var item = list[index]
-        item = item.copy(isCompleted: !item.isCompleted)
-        list[index] = item
-        print("\(#function) completed=\(item.isCompleted)")
+        guard let item = list.first(where: { $0.id == id }) else { return }
+        
         Task { [weak self] in
-            let result = await self?.repository.saveData(item)
+            let result = await self?.repository.saveData(item.copy(isCompleted: !item.isCompleted))
             switch result {
             case .success(_):
                 break
@@ -61,7 +58,7 @@ final class HomeViewModel {
             case .success(_):
                 break
             case .failure(let error):
-                self?.list.append(item)
+                self?.updateList(item)
                 self?.showError(error)
             case .none:
                 break
@@ -91,7 +88,7 @@ final class HomeViewModel {
             let result = await self.repository.fetchData()
             switch result {
             case .success(let data):
-                self.list = data
+                self.sortList(data)
             case .failure(let error):
                 self.showError(error)
             }
@@ -104,14 +101,7 @@ final class HomeViewModel {
         router.navigate(to: .edit(id: id))
     }
     
-    private func subscribeUpdate() {
-        repository.updatePublisher
-            .sink(receiveValue: loadData)
-            .store(in: &cancellables)
-    }
-    
     private func loadData(by id: String) {
-        print("HomeViewModel: \(#function) id='\(id)'")
         guard !id.isEmpty else {
             loadData()
             return
@@ -122,7 +112,7 @@ final class HomeViewModel {
             switch result {
             case .success(let item):
                 guard let item else { break }
-                self?.updateItem(item)
+                self?.updateList(item)
             case .failure(let error):
                 self?.showError(error)
             case .none:
@@ -131,16 +121,23 @@ final class HomeViewModel {
         }
     }
     
-    private func updateItem(_ item: ToDoItem) {
-        print("\(#function) completed=\(item.isCompleted)")
-        if let index = list.firstIndex(where: { $0.id == item.id }) {
-            list[index] = item
-        } else {
-            list.append(item)
-        }
+    private func updateList(_ newItem: ToDoItem) {
+        var newList = list.filter { $0.id != newItem.id }
+        newList.append(newItem)
+        sortList(newList)
     }
-    
+
+    private func sortList(_ newList: [ToDoItem]) {
+        self.list = newList.sorted(by: <)
+    }
+
     private func showError(_ error: Error) {
         print("Error: \(error.localizedDescription)")
+    }
+    
+    private func subscribeUpdate() {
+        repository.updatePublisher
+            .sink(receiveValue: loadData)
+            .store(in: &cancellables)
     }
 }

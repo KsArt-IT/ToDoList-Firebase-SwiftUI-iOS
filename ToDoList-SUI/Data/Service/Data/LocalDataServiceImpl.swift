@@ -16,6 +16,10 @@ final class LocalDataServiceImpl: DataService {
         updateSubject.eraseToAnyPublisher()
     }
     
+    init() {
+        previewData()
+    }
+    
     func fetchData() async -> Result<[ToDoItem], any Error> {
         return .success(Array(items.values))
     }
@@ -38,4 +42,19 @@ final class LocalDataServiceImpl: DataService {
         items.removeValue(forKey: id)
         return .success(true)
     }
+    
+    private func previewData() {
+        (0...100).forEach { num in
+            let item = ToDoItem(
+                id: num.description,
+                date: Date(),
+                title: "Element-\(num)",
+                text: "Go to",
+                isCritical: num % 2 == 0,
+                isCompleted: num % 5 == 0
+            )
+            items[item.id] = item
+        }
+    }
+
 }

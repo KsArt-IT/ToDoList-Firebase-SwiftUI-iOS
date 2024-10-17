@@ -24,12 +24,12 @@ extension ToDoItem {
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.date == rhs.date && lhs.title == rhs.title && lhs.text == rhs.text
+        (lhs.date, lhs.title, lhs.text, lhs.isCompleted) == (rhs.date, rhs.title, rhs.text, rhs.isCompleted)
     }
     
     // Реализуем оператор меньше для сравнения задач по дате
     static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.date < rhs.date || lhs.title < rhs.title || lhs.text < rhs.text
+        (lhs.date, lhs.title, lhs.text) < (rhs.date, rhs.title, rhs.text)
     }
 }
 
