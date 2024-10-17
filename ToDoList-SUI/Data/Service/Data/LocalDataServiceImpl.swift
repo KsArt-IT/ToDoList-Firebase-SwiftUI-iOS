@@ -17,7 +17,7 @@ final class LocalDataServiceImpl: DataService {
     }
     
     init() {
-        previewData()
+//        previewData()
     }
     
     func fetchData() async -> Result<[ToDoItem], any Error> {

@@ -17,14 +17,19 @@ struct HomeScreen: View {
     var body: some View {
         ZStack(alignment: .top) {
             BackgroundView()
-            
-            List {
-                ForEach(viewModel.list) { item in
-                    ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
+            if viewModel.list.isEmpty {
+                NoItemView {
+                    viewModel.edit()
                 }
-                .onDelete(perform: viewModel.delete)
+            } else {
+                List {
+                    ForEach(viewModel.list) { item in
+                        ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
+                    }
+                    .onDelete(perform: viewModel.delete)
+                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
         }
         .navigationTitle("To Do List")
         .toolbar {
