@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F1D36F582CC2873D0042CBED /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F1D36F572CC2873D0042CBED /* FirebaseAuth */; };
+		F1D36F5A2CC2873D0042CBED /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = F1D36F592CC2873D0042CBED /* FirebaseCore */; };
+		F1D36F5C2CC2873D0042CBED /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F1D36F5B2CC2873D0042CBED /* FirebaseFirestore */; };
 		F1E8BD192CB94C7400C713AD /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = F1E8BD182CB94C7400C713AD /* Swinject */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +31,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1E8BD192CB94C7400C713AD /* Swinject in Frameworks */,
+				F1D36F5C2CC2873D0042CBED /* FirebaseFirestore in Frameworks */,
+				F1D36F5A2CC2873D0042CBED /* FirebaseCore in Frameworks */,
+				F1D36F582CC2873D0042CBED /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +77,9 @@
 			name = "ToDoList-SUI";
 			packageProductDependencies = (
 				F1E8BD182CB94C7400C713AD /* Swinject */,
+				F1D36F572CC2873D0042CBED /* FirebaseAuth */,
+				F1D36F592CC2873D0042CBED /* FirebaseCore */,
+				F1D36F5B2CC2873D0042CBED /* FirebaseFirestore */,
 			);
 			productName = "ToDoList-SUI";
 			productReference = F1F813EC2CB7D9C900B4B8B5 /* ToDoList-SUI.app */;
@@ -104,6 +113,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */,
+				F1D36F562CC2873D0042CBED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F1F813ED2CB7D9C900B4B8B5 /* Products */;
@@ -263,7 +273,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ToDoList-SUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 56FX6RXGXW;
 				ENABLE_PREVIEWS = YES;
@@ -272,6 +282,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -298,7 +309,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ToDoList-SUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 56FX6RXGXW;
 				ENABLE_PREVIEWS = YES;
@@ -307,6 +318,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -351,6 +363,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F1D36F562CC2873D0042CBED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.3.0;
+			};
+		};
 		F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -362,6 +382,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F1D36F572CC2873D0042CBED /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1D36F562CC2873D0042CBED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		F1D36F592CC2873D0042CBED /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1D36F562CC2873D0042CBED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		F1D36F5B2CC2873D0042CBED /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1D36F562CC2873D0042CBED /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		F1E8BD182CB94C7400C713AD /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F1E8BD172CB94C7400C713AD /* XCRemoteSwiftPackageReference "Swinject" */;
