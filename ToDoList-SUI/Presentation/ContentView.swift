@@ -25,12 +25,9 @@ struct ContentView: View {
                         EditScreen(id, viewModel: DIManager.shared.resolve())
                     case .splash:
                         SplashScreen()
-                            .navigationBarBackButtonHidden(true)
-                            .interactiveDismissDisabled()
                             .onAppear {
                                 initDataAndGoHome()
                             }
-                    }
                 }
         }
     }
@@ -41,7 +38,7 @@ extension ContentView {
         Task {
             // инициализация
             homeViewModel.loadData()
-            sleep(1)
+            sleep(2)
             router.navigateToRoot()
         }
     }

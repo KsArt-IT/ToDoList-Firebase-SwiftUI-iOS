@@ -18,6 +18,8 @@ struct SplashScreen: View {
             Spacer()
             Text("KsArT.pro")
         }
+        .navigationBarBackButtonHidden(true)
+        .interactiveDismissDisabled()
     }
 }
 

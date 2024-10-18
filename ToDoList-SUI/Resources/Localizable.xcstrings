@@ -82,6 +82,9 @@
         }
       }
     },
+    "Hello, Login!" : {
+
+    },
     "Important task" : {
       "localizations" : {
         "ru" : {
