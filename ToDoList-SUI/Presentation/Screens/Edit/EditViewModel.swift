@@ -27,6 +27,9 @@ final class EditViewModel {
     var date = Date()
     var time = Date()
     var isCritical = false
+    var isSaveDisabled: Bool {
+        title.isEmpty
+    }
     
     init(router: Router, repository: DataRepository) {
         print("EditViewModel: \(#function)")

@@ -46,9 +46,10 @@ struct EditScreen: View {
                         .foregroundStyle(.text)
                         .padding(.vertical)
                         .frame(maxWidth: .infinity)
-                        .background(Color.background)
+                        .background(viewModel.isSaveDisabled ? Color.background.opacity(0.5) : Color.background)
                         .cornerRadius(10)
                 }
+                .disabled(viewModel.isSaveDisabled)
                 
                 Spacer()
             }
