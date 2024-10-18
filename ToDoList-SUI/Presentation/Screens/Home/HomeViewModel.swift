@@ -20,6 +20,9 @@ final class HomeViewModel {
     @ObservationIgnored private let timeDelay: TimeInterval = 20
     
     var list: [ToDoItem] = []
+    var done: Double {
+        list.count > 0 ? Double(list.count(where: { $0.isCompleted })) / Double(list.count) : 0
+    }
     
     init(router: Router, repository: DataRepository) {
         print("HomeViewModel: \(#function)")

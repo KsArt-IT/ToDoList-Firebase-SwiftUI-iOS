@@ -17,6 +17,22 @@
         }
       }
     },
+    "Completed" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполнено"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконано"
+          }
+        }
+      }
+    },
     "Date" : {
       "localizations" : {
         "ru" : {
