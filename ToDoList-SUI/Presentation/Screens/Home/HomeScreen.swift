@@ -15,28 +15,26 @@ struct HomeScreen: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            BackgroundView()
-            VStack {
-                if viewModel.list.isEmpty {
-                    NoItemView {
-                        viewModel.edit()
-                    }
-                } else {
-                    List {
-                        ForEach(viewModel.list) { item in
-                            ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
-                        }
-                        .onDelete(perform: viewModel.delete)
-                    }
-                    .listStyle(.plain)
-                    
-                    ProgressView("Completed", value: viewModel.done)
-                        .progressViewStyle(LinearProgressViewStyle())
-                        .padding()
+        VStack {
+            if viewModel.list.isEmpty {
+                NoItemView {
+                    viewModel.edit()
                 }
+            } else {
+                List {
+                    ForEach(viewModel.list) { item in
+                        ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
+                    }
+                    .onDelete(perform: viewModel.delete)
+                }
+                .listStyle(.plain)
+                
+                ProgressView("Completed", value: viewModel.done)
+                    .progressViewStyle(LinearProgressViewStyle())
+                    .padding()
             }
         }
+        // MARK: - Navigation
         .navigationTitle("To Do List")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -46,6 +44,10 @@ struct HomeScreen: View {
                     Image(systemName: "plus")
                 }
             }
+        }
+        // MARK: - Background
+        .background {
+            BackgroundView()
         }
     }
     

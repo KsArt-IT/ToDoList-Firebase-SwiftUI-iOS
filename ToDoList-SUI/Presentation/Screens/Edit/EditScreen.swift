@@ -17,44 +17,40 @@ struct EditScreen: View {
     
     // MARK: - Body
     var body: some View {
-        ZStack{
-            BackgroundView()
-            
-            VStack{
-                TextField("Task title", text: $viewModel.title)
-                    .font(.headline)
-                    .padding()
-                    .background()
-                    .cornerRadius(10)
-                    .padding(.vertical)
-                TextField("Task text", text: $viewModel.text)
-                    .font(.subheadline)
-                    .padding()
-                    .background()
-                    .cornerRadius(10)
-                DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
-                    .padding(.vertical)
-                DatePicker("Time", selection: $viewModel.date, displayedComponents: .hourAndMinute)
-                Toggle(isOn: $viewModel.isCritical) {
-                    Text("Important task")
-                }
+        VStack {
+            TextField("Task title", text: $viewModel.title)
+                .font(.headline)
+                .padding()
+                .background()
+                .cornerRadius(10)
                 .padding(.vertical)
-                Button {
-                    viewModel.save()
-                } label: {
-                    Text("Save")
-                        .foregroundStyle(.text)
-                        .padding(.vertical)
-                        .frame(maxWidth: .infinity)
-                        .background(viewModel.isSaveDisabled ? Color.background.opacity(0.5) : Color.background)
-                        .cornerRadius(10)
-                }
-                .disabled(viewModel.isSaveDisabled)
-                
-                Spacer()
+            TextField("Task text", text: $viewModel.text)
+                .font(.subheadline)
+                .padding()
+                .background()
+                .cornerRadius(10)
+            DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
+                .padding(.vertical)
+            DatePicker("Time", selection: $viewModel.date, displayedComponents: .hourAndMinute)
+            Toggle(isOn: $viewModel.isCritical) {
+                Text("Important task")
             }
-            .padding()
+            .padding(.vertical)
+            Button {
+                viewModel.save()
+            } label: {
+                Text("Save")
+                    .foregroundStyle(.text)
+                    .padding(.vertical)
+                    .frame(maxWidth: .infinity)
+                    .background(viewModel.isSaveDisabled ? Color.background.opacity(0.5) : Color.background)
+                    .cornerRadius(10)
+            }
+            .disabled(viewModel.isSaveDisabled)
+            
+            Spacer()
         }
+        .padding()
         // MARK: - Navigation
         .navigationTitle(viewModel.newTask ? "New task" : "Edit")
         .navigationBarTitleDisplayMode(.inline)
@@ -69,6 +65,10 @@ struct EditScreen: View {
                         .foregroundStyle(.accent)
                 }
             }
+        }
+        // MARK: - Background
+        .background {
+            BackgroundView()
         }
     }
 }
