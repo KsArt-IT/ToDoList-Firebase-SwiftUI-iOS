@@ -14,9 +14,14 @@ class DIManager {
     
     private init() {
         registerRouter()
+        
         registerReposiroty()
+        
         registerHomeViewModel()
         registerEditViewModel()
+        
+        registerValidation()
+        registerLoginViewModel()
     }
     
     //MARK: - Регистрация зависимостей
@@ -51,6 +56,23 @@ class DIManager {
             EditViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(DataRepository.self)!
+            )
+        }
+    }
+    
+    private func registerValidation() {
+        print(#function)
+        container.register(Validation.self) { _ in
+            Validation()
+        }
+    }
+    
+    private func registerLoginViewModel() {
+        print(#function)
+        container.register(LoginViewModel.self) { r in
+            LoginViewModel(
+                router: r.resolve(Router.self)!,
+                validation: r.resolve(Validation.self)!
             )
         }
     }

@@ -36,18 +36,25 @@ struct HomeScreen: View {
         }
         // MARK: - Navigation
         .navigationTitle("To Do List")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .interactiveDismissDisabled()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     viewModel.edit()
                 } label: {
                     Image(systemName: "plus")
+                        .font(.headline)
                 }
             }
         }
         // MARK: - Background
         .background {
             BackgroundView()
+        }
+        .onAppear {
+            viewModel.loadData()
         }
     }
     

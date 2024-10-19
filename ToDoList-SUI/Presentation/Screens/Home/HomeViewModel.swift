@@ -28,9 +28,10 @@ final class HomeViewModel {
         print("HomeViewModel: \(#function)")
         self.router = router
         self.repository = repository
+        // наблюдаем за добавлением и изменением записей
         subscribeUpdate()
     }
-    
+
     public func toggleCompleted(_ id: String) {
         guard let item = list.first(where: { $0.id == id }) else { return }
         
@@ -80,8 +81,17 @@ final class HomeViewModel {
         fetchData()
     }
     
+    private func isAuthorized() -> Bool {
+        if Profile.isRelogin {
+            toLogin()
+        }
+        return !Profile.isRelogin
+    }
+    
     private func fetchData() {
         print(#function)
+        guard isAuthorized() else { return }
+        
         if taskLoadData != nil {
             taskLoadData?.cancel()
         }
@@ -131,6 +141,8 @@ final class HomeViewModel {
     }
 
     private func sortList(_ newList: [ToDoItem]) {
+        guard isAuthorized() else { return }
+        
         self.list = newList.sorted(by: <)
     }
 
@@ -143,4 +155,10 @@ final class HomeViewModel {
             .sink(receiveValue: loadData)
             .store(in: &cancellables)
     }
+    
+    // MARK: - Navigation
+    private func toLogin() {
+        router.navigateToRoot()
+    }
+
 }

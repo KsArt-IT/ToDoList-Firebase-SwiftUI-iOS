@@ -13,33 +13,27 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $router.navigationPath) {
-            HomeScreen(viewModel: homeViewModel)
+            LoginScreen(viewModel: DIManager.shared.resolve())
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .home:
-                        EmptyView()
-                            .onAppear {
-                                router.navigateToRoot()
-                            }
+                        HomeScreen(viewModel: homeViewModel)
                     case .edit(let id):
                         EditScreen(id, viewModel: DIManager.shared.resolve())
                     case .splash:
                         SplashScreen()
                             .onAppear {
-                                initDataAndGoHome()
+                                Task {
+                                    sleep(2)
+                                    router.navigateToRoot()
+                                }
                             }
+                    case .registration:
+                        EmptyView()
+                    case .resetPassword:
+                        EmptyView()
+                    }
                 }
-        }
-    }
-}
-
-extension ContentView {
-    private func initDataAndGoHome() {
-        Task {
-            // инициализация
-            homeViewModel.loadData()
-            sleep(2)
-            router.navigateToRoot()
         }
     }
 }
