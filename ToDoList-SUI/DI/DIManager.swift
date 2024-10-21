@@ -16,6 +16,7 @@ class DIManager {
         registerRouter()
         
         registerReposiroty()
+        registerReposirotyAuth()
         
         registerHomeViewModel()
         registerEditViewModel()
@@ -80,6 +81,7 @@ class DIManager {
         container.register(LoginViewModel.self) { r in
             LoginViewModel(
                 router: r.resolve(Router.self)!,
+                repository: r.resolve(AuthRepository.self)!,
                 validation: r.resolve(Validation.self)!
             )
         }

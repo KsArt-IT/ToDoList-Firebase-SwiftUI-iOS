@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
 
 final class FirebaseAuthServiceImpl: AuthService {
-
+    
     func logout() async -> Result<Bool, Error> {
         do {
             try Auth.auth().signOut()
@@ -19,7 +20,7 @@ final class FirebaseAuthServiceImpl: AuthService {
             return .failure(NetworkServiceError.networkError(error))
         }
     }
-
+    
     func fetchAuthUser() async -> Result<UserAuth, Error> {
         do {
             guard let user = Auth.auth().currentUser else {
@@ -42,7 +43,7 @@ final class FirebaseAuthServiceImpl: AuthService {
             return .failure(NetworkServiceError.networkError(error))
         }
     }
-
+    
     private func getPhoto(url: URL?) async -> Data? {
         guard let url else { return nil }
         do {
@@ -55,9 +56,9 @@ final class FirebaseAuthServiceImpl: AuthService {
             return nil
         }
     }
-
+    
     func signIn(email: String, password: String) async -> Result<Bool, Error>{
-
+        
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             print("Auth result=\(result)")
@@ -65,27 +66,27 @@ final class FirebaseAuthServiceImpl: AuthService {
         } catch {
             return if let errorCode = AuthErrorCode(rawValue: error._code) {
                 switch errorCode {
-                    case .invalidEmail:
-                            .failure(NetworkServiceError.invalidEmail)
-                    case .wrongPassword:
-                            .failure(NetworkServiceError.wrongPassword)
-                    case .userNotFound:
-                            .failure(NetworkServiceError.userNotFound)
-                    case .userDisabled:
-                            .failure(NetworkServiceError.userDisabled)
-                    case .invalidCredential:
-                            .failure(NetworkServiceError.invalidCredential)
-                    default:
-                            .failure(NetworkServiceError.networkError(error))
+                case .invalidEmail:
+                        .failure(NetworkServiceError.invalidEmail)
+                case .wrongPassword:
+                        .failure(NetworkServiceError.wrongPassword)
+                case .userNotFound:
+                        .failure(NetworkServiceError.userNotFound)
+                case .userDisabled:
+                        .failure(NetworkServiceError.userDisabled)
+                case .invalidCredential:
+                        .failure(NetworkServiceError.invalidCredential)
+                default:
+                        .failure(NetworkServiceError.networkError(error))
                 }
             } else {
                 .failure(NetworkServiceError.networkError(error))
             }
         }
     }
-
+    
     func signUp(email: String, password: String) async -> Result<Bool, Error>{
-
+        
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             print("Auth result=\(result)")
@@ -93,23 +94,23 @@ final class FirebaseAuthServiceImpl: AuthService {
         } catch {
             return if let errorCode = AuthErrorCode(rawValue: error._code) {
                 switch errorCode {
-                    case .emailAlreadyInUse:
-                            .failure(NetworkServiceError.emailAlreadyInUse)
-                    case .invalidEmail:
-                            .failure(NetworkServiceError.invalidEmail)
-                    case .weakPassword:
-                            .failure(NetworkServiceError.weakPassword)
-                    default:
-                            .failure(NetworkServiceError.networkError(error))
+                case .emailAlreadyInUse:
+                        .failure(NetworkServiceError.emailAlreadyInUse)
+                case .invalidEmail:
+                        .failure(NetworkServiceError.invalidEmail)
+                case .weakPassword:
+                        .failure(NetworkServiceError.weakPassword)
+                default:
+                        .failure(NetworkServiceError.networkError(error))
                 }
             } else {
                 .failure(NetworkServiceError.networkError(error))
             }
         }
     }
-
+    
     func resetPassword(email: String) async -> Result<Bool, Error>{
-
+        
         do {
             try await Auth.auth().sendPasswordReset(withEmail: email)
             print("Auth result=Ok")
@@ -117,21 +118,21 @@ final class FirebaseAuthServiceImpl: AuthService {
         } catch {
             return if let errorCode = AuthErrorCode(rawValue: error._code) {
                 switch errorCode {
-                    case .emailAlreadyInUse:
-                            .failure(NetworkServiceError.emailAlreadyInUse)
-                    case .invalidEmail:
-                            .failure(NetworkServiceError.invalidEmail)
-                    case .weakPassword:
-                            .failure(NetworkServiceError.weakPassword)
-                    default:
-                            .failure(NetworkServiceError.networkError(error))
+                case .emailAlreadyInUse:
+                        .failure(NetworkServiceError.emailAlreadyInUse)
+                case .invalidEmail:
+                        .failure(NetworkServiceError.invalidEmail)
+                case .weakPassword:
+                        .failure(NetworkServiceError.weakPassword)
+                default:
+                        .failure(NetworkServiceError.networkError(error))
                 }
             } else {
                 .failure(NetworkServiceError.networkError(error))
             }
         }
     }
-
+    
     // вход через google аккаунт
     func signIn(withIDToken: String, accessToken: String) async -> Result<Bool, Error> {
         do {
@@ -143,5 +144,12 @@ final class FirebaseAuthServiceImpl: AuthService {
         } catch {
             return .failure(NetworkServiceError.networkError(error))
         }
+    }
+    
+    func signInGoogle() async -> Result<String, any Error> {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            return .failure(NetworkServiceError.cancelled)
+        }
+        return .success(clientID)
     }
 }

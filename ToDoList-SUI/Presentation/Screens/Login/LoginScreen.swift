@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct LoginScreen: View {
     @State private var viewModel: LoginViewModel
@@ -45,6 +46,14 @@ struct LoginScreen: View {
                 .padding(.vertical)
             Spacer()
             ButtonView("SignUp", onClick: viewModel.toRegistration)
+            
+            if viewModel.isSignInGoogle {
+                SignInGoogleView(
+                    clientID: viewModel.clientID,
+                    action: viewModel.submitSignInGoogle,
+                    closed: viewModel.onCloseSignInGoogle
+                )
+            }
         }
         .padding()
         .navigationBarBackButtonHidden(true)
@@ -56,5 +65,11 @@ struct LoginScreen: View {
 }
 
 #Preview {
-    LoginScreen(viewModel: LoginViewModel(router: RouterApp(), validation: Validation()))
+    LoginScreen(
+        viewModel: LoginViewModel(
+            router: RouterApp(),
+            repository: FirebaseAuthRepositoryImpl(service: FirebaseAuthServiceImpl()),
+            validation: Validation()
+        )
+    )
 }

@@ -18,9 +18,22 @@
 		F1F813EC2CB7D9C900B4B8B5 /* ToDoList-SUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-SUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F14E7E0D2CC69E7C00C9949D /* Exceptions for "ToDoList-SUI" folder in "ToDoList-SUI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F1F813EB2CB7D9C900B4B8B5 /* ToDoList-SUI */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F1F813EE2CB7D9C900B4B8B5 /* ToDoList-SUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F14E7E0D2CC69E7C00C9949D /* Exceptions for "ToDoList-SUI" folder in "ToDoList-SUI" target */,
+			);
 			path = "ToDoList-SUI";
 			sourceTree = "<group>";
 		};
@@ -282,6 +295,7 @@
 				DEVELOPMENT_TEAM = 56FX6RXGXW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ToDoList-SUI/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ToDo-SUI";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -318,6 +332,7 @@
 				DEVELOPMENT_TEAM = 56FX6RXGXW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ToDoList-SUI/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "ToDo-SUI";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
