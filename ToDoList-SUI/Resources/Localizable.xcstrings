@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "A user with this email does not exist." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользователь с таким email не существует."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Користувач із таким email не існує."
+          }
+        }
+      }
+    },
     "Add your first task!" : {
       "localizations" : {
         "ru" : {
@@ -33,6 +49,22 @@
         }
       }
     },
+    "Database is not connected." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "База данных не подключена."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "База даних не підключена."
+          }
+        }
+      }
+    },
     "Date" : {
       "localizations" : {
         "ru" : {
@@ -45,6 +77,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата"
+          }
+        }
+      }
+    },
+    "Decoding failed with error" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка декодирования"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка декодування"
           }
         }
       }
@@ -114,6 +162,38 @@
         }
       }
     },
+    "Incorrect password entered." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введен неверный пароль."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введено неправильний пароль."
+          }
+        }
+      }
+    },
+    "Invalid email format." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный формат адреса электронной почты."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недійсний формат електронної пошти."
+          }
+        }
+      }
+    },
     "KsArT.pro" : {
       "shouldTranslate" : false
     },
@@ -129,6 +209,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Увійти"
+          }
+        }
+      }
+    },
+    "Network error occurred" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла ошибка сети"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сталася помилка мережі"
           }
         }
       }
@@ -237,6 +333,102 @@
         }
       }
     },
+    "The password is too weak." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль слишком слабый."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль занадто слабкий."
+          }
+        }
+      }
+    },
+    "The request is invalid." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запрос недействителен."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запит недійсний."
+          }
+        }
+      }
+    },
+    "The response is invalid." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ недействителен."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь недійсна."
+          }
+        }
+      }
+    },
+    "The supplied auth credential is malformed or has expired." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предоставленные учетные данные аутентификации неверны или срок их действия истек."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надані облікові дані автентифікації неправильні або термін їх дії минув."
+          }
+        }
+      }
+    },
+    "The user account has been blocked." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Учетная запись пользователя заблокирована."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обліковий запис користувача заблоковано."
+          }
+        }
+      }
+    },
+    "This email is already in use." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот адрес электронной почты уже используется."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця електронна адреса вже використовується."
+          }
+        }
+      }
+    },
     "Time" : {
       "localizations" : {
         "ru" : {
@@ -297,6 +489,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введіть пароль"
+          }
+        }
+      }
+    },
+    "Unexpected status code" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неожиданный код статуса"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неочікуваний код стану"
           }
         }
       }
