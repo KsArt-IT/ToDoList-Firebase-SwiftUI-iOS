@@ -29,7 +29,7 @@ struct ContentView: View {
                                 }
                             }
                     case .registration:
-                        EmptyView()
+                        RegistrationScreen(viewModel: DIManager.shared.resolve())
                     case .resetPassword:
                         EmptyView()
                     }

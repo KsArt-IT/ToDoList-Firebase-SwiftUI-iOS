@@ -23,6 +23,7 @@ class DIManager {
         
         registerValidation()
         registerLoginViewModel()
+        registerRegistrationViewModel()
     }
     
     //MARK: - Регистрация зависимостей
@@ -80,6 +81,17 @@ class DIManager {
         print(#function)
         container.register(LoginViewModel.self) { r in
             LoginViewModel(
+                router: r.resolve(Router.self)!,
+                repository: r.resolve(AuthRepository.self)!,
+                validation: r.resolve(Validation.self)!
+            )
+        }
+    }
+    
+    private func registerRegistrationViewModel() {
+        print(#function)
+        container.register(RegistrationViewModel.self) { r in
+            RegistrationViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(AuthRepository.self)!,
                 validation: r.resolve(Validation.self)!

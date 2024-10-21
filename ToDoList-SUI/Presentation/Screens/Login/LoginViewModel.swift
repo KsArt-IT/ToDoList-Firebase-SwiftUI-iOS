@@ -91,7 +91,7 @@ final class LoginViewModel {
                 self?.toHome()
             case .failure(let error):
                 Profile.logout()
-                self?.showError(error: error)
+                self?.showError(error)
             case .none:
                 break
             }
@@ -112,7 +112,7 @@ final class LoginViewModel {
                 // успешная авторизация, получить пользователя и перейти на основной экран
                 self.setAuthUser()
             case .failure(let error):
-                self.showError(error: error)
+                self.showError(error)
             }
             isCanClick = true
         }
@@ -129,7 +129,7 @@ final class LoginViewModel {
                 self?.clientID = clientID
             case .failure(let error):
                 self?.onCloseSignInGoogle()
-                self?.showError(error: error)
+                self?.showError(error)
             case .none:
                 break
             }
@@ -145,7 +145,7 @@ final class LoginViewModel {
                 // успешная авторизация, получить пользователя и перейти на основной экран
                 self?.setAuthUser()
             case .failure(let error):
-                self?.showError(error: error)
+                self?.showError(error)
             case .none:
                 break
             }
@@ -157,7 +157,7 @@ final class LoginViewModel {
         clientID = ""
     }
     
-    private func showError(error: Error) {
+    private func showError(_ error: Error) {
         guard let error = error as? NetworkServiceError else { return }
         print("LoginViewModel: \(#function), Error: \(error.localizedDescription)")
         self.viewError = switch error {
@@ -172,7 +172,6 @@ final class LoginViewModel {
         case .cancelled:
                 .none
         }
-        
     }
     
     // MARK: - Navigation

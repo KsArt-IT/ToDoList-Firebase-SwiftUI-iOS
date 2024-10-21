@@ -49,6 +49,9 @@
         }
       }
     },
+    "Confirm password" : {
+
+    },
     "Database is not connected." : {
       "localizations" : {
         "ru" : {
@@ -244,6 +247,9 @@
           }
         }
       }
+    },
+    "Register" : {
+
     },
     "Save" : {
       "extractionState" : "manual",
