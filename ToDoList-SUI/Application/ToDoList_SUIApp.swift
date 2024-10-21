@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import GoogleSignIn
 
 @main
 struct ToDoList_SUIApp: App {
@@ -22,6 +23,7 @@ struct ToDoList_SUIApp: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
+    // MARK: for FirebaseApp
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
@@ -30,4 +32,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
+    // MARK: for GoogleSignIn
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+      return GIDSignIn.sharedInstance.handle(url)
+    }
+
 }
