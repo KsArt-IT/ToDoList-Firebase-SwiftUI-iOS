@@ -39,6 +39,14 @@ class DIManager {
         .inObjectScope(.container)
     }
     
+    private func registerReposirotyAuth() {
+        container.register(AuthService.self) { _ in FirebaseAuthServiceImpl() }
+        container.register(AuthRepository.self) { r in
+            FirebaseAuthRepositoryImpl(service: r.resolve(AuthService.self)!)
+        }
+        .inObjectScope(.weak)
+    }
+    
     private func registerHomeViewModel() {
         print(#function)
         container.register(HomeViewModel.self) { r in
