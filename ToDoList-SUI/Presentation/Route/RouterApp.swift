@@ -19,21 +19,31 @@ final class RouterApp: Router {
     
     /// Переход на конкретный экран
     func navigate(to route: Route) {
-        navigationPath.append(route)
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationPath.append(route)
+            
+            print("route: \(route) count=\(String(describing: self?.navigationPath.count)) main=\(String(describing: Thread.isMainThread))")
+        }
     }
     
     /// Вернуться на корневой экран
     func navigateToRoot() {
         guard !navigationPath.isEmpty else { return }
         
-        navigationPath.removeLast(navigationPath.count)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
+            self.navigationPath.removeLast(self.navigationPath.count)
+        }
     }
     
     /// Вернуться назад
     func back() {
         guard !navigationPath.isEmpty else { return }
         
-        navigationPath.removeLast()
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationPath.removeLast()
+        }
     }
     
 }

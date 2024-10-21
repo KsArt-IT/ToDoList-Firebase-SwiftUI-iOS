@@ -50,7 +50,7 @@ final class EditViewModel {
             let result = await self?.repository.saveData(item)
             switch result {
             case .success(_):
-                self?.toBack()
+                self?.close()
             case .failure(let error):
                 print("Error: \(error)")
             case .none:
@@ -101,7 +101,8 @@ final class EditViewModel {
     
     // MARK: - Nagigation
     
-    func toBack() {
+    func close() {
+        print("EditViewModel: \(#function)")
         router.back()
     }
 }

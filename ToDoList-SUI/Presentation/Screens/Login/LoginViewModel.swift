@@ -16,8 +16,9 @@ final class LoginViewModel {
     var login: String = "test@gmail.com"
     var password: String = "test"
     var isLoginDisabled: Bool {
-        !(checkLogin() && checkPassword())
+        !(isCanClick && checkLogin() && checkPassword())
     }
+    @ObservationIgnored var isCanClick = true
     
     init(
         router: Router,
@@ -54,6 +55,7 @@ final class LoginViewModel {
     
     public func signIn() {
         if !isLoginDisabled {
+            isCanClick = false
             avtorized()
             toHome()
         }
@@ -79,11 +81,12 @@ final class LoginViewModel {
     }
 
     private func toHome() {
-        print(#function)
-        router.navigate(to: .home)
+        guard !isCanClick else { return }
+        router.navigateToRoot()
     }
     
     public func toRegistration() {
         router.navigate(to: .registration)
     }
+    
 }

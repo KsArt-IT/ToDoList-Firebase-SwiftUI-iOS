@@ -37,8 +37,6 @@ struct HomeScreen: View {
         // MARK: - Navigation
         .navigationTitle("To Do List")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .interactiveDismissDisabled()
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -54,7 +52,7 @@ struct HomeScreen: View {
             BackgroundView()
         }
         .onAppear {
-            viewModel.loadData()
+            viewModel.onShowView()
         }
     }
     

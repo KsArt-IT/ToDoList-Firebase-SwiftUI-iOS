@@ -58,7 +58,7 @@ struct EditScreen: View {
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button {
-                    viewModel.toBack()
+                    viewModel.close()
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.headline)

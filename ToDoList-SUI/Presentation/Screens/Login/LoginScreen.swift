@@ -47,6 +47,8 @@ struct LoginScreen: View {
             ButtonView("SignUp", onClick: viewModel.toRegistration)
         }
         .padding()
+        .navigationBarBackButtonHidden(true)
+        .interactiveDismissDisabled()
         .background {
             BackgroundView()
         }

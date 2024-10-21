@@ -13,11 +13,11 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $router.navigationPath) {
-            LoginScreen(viewModel: DIManager.shared.resolve())
+            HomeScreen(viewModel: homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .home:
-                        HomeScreen(viewModel: homeViewModel)
+                    case .login:
+                        LoginScreen(viewModel: DIManager.shared.resolve())
                     case .edit(let id):
                         EditScreen(id, viewModel: DIManager.shared.resolve())
                     case .splash:
@@ -25,7 +25,7 @@ struct ContentView: View {
                             .onAppear {
                                 Task {
                                     sleep(2)
-                                    router.navigateToRoot()
+                                    homeViewModel.initialize()
                                 }
                             }
                     case .registration:
@@ -33,6 +33,9 @@ struct ContentView: View {
                     case .resetPassword:
                         EmptyView()
                     }
+                }
+                .onAppear {
+                    print("router: \(router.navigationPath.count)")
                 }
         }
     }

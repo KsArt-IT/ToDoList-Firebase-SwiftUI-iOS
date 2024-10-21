@@ -18,6 +18,7 @@ final class HomeViewModel {
     @ObservationIgnored private var taskLoadData: Task<(), Never>?
     @ObservationIgnored private var timeLoadData: Date?
     @ObservationIgnored private let timeDelay: TimeInterval = 20
+    @ObservationIgnored private var isInitialize = false
     
     var list: [ToDoItem] = []
     var done: Double {
@@ -28,10 +29,29 @@ final class HomeViewModel {
         print("HomeViewModel: \(#function)")
         self.router = router
         self.repository = repository
+    }
+    
+    public func onShowView() {
+        print("HomeViewModel: \(#function)")
+        guard isInitialize && isAuthorized() else { return }
+        
+        loadData()
+    }
+    
+    public func initialize() {
+        print("HomeViewModel: \(#function)")
         // наблюдаем за добавлением и изменением записей
         subscribeUpdate()
+        isInitialize = !isAuthorized()
     }
-
+    
+    private func isAuthorized() -> Bool {
+        if Profile.isRelogin {
+            toLogin()
+        }
+        return !Profile.isRelogin
+    }
+    
     public func toggleCompleted(_ id: String) {
         guard let item = list.first(where: { $0.id == id }) else { return }
         
@@ -69,7 +89,7 @@ final class HomeViewModel {
             }
         }
     }
-
+    
     public func reloadData() {
         // вызывать каждый раз
         fetchData()
@@ -81,16 +101,9 @@ final class HomeViewModel {
         fetchData()
     }
     
-    private func isAuthorized() -> Bool {
-        if Profile.isRelogin {
-            toLogin()
-        }
-        return !Profile.isRelogin
-    }
-    
     private func fetchData() {
-        print(#function)
         guard isAuthorized() else { return }
+        print("HomeViewModel: \(#function)")
         
         if taskLoadData != nil {
             taskLoadData?.cancel()
@@ -108,10 +121,6 @@ final class HomeViewModel {
             self.taskLoadData = nil
             self.timeLoadData = Date()
         }
-    }
-    
-    public func edit(id: String = "") {
-        router.navigate(to: .edit(id: id))
     }
     
     private func loadData(by id: String) {
@@ -139,13 +148,13 @@ final class HomeViewModel {
         newList.append(newItem)
         sortList(newList)
     }
-
+    
     private func sortList(_ newList: [ToDoItem]) {
         guard isAuthorized() else { return }
         
         self.list = newList.sorted(by: <)
     }
-
+    
     private func showError(_ error: Error) {
         print("Error: \(error.localizedDescription)")
     }
@@ -157,8 +166,15 @@ final class HomeViewModel {
     }
     
     // MARK: - Navigation
-    private func toLogin() {
-        router.navigateToRoot()
+    public func edit(id: String = "") {
+        guard isAuthorized() else { return }
+        
+        router.navigate(to: .edit(id: id))
     }
-
+    
+    private func toLogin() {
+        print("HomeViewModel: \(#function)")
+        router.navigate(to: .login)
+    }
+    
 }

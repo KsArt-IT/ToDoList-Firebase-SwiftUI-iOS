@@ -7,9 +7,9 @@
 
 enum Route: Hashable {
     case splash
-    case home
+//    case home // root
     case edit(id: String)
-//    case login // root
+    case login
     case registration
     case resetPassword
 }
