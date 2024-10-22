@@ -31,7 +31,7 @@ struct ContentView: View {
                     case .registration:
                         RegistrationScreen(viewModel: DIManager.shared.resolve())
                     case .resetPassword:
-                        EmptyView()
+                        ResetScreen(viewModel: DIManager.shared.resolve())
                     }
                 }
                 .onAppear {
