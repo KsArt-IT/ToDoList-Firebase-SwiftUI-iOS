@@ -29,7 +29,7 @@ struct HomeScreen: View {
                 }
                 .listStyle(.plain)
                 
-                ProgressView("Completed", value: viewModel.done)
+                ProgressView("Completed", value: viewModel.progressCompleted)
                     .progressViewStyle(LinearProgressViewStyle())
                     .padding()
             }
@@ -44,6 +44,23 @@ struct HomeScreen: View {
                 } label: {
                     Image(systemName: "plus")
                         .font(.headline)
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button {
+                        // Действие для профиля
+                        print("Profile tapped")
+                    } label: {
+                        Label("Profile", systemImage: "person.circle")
+                    }
+                    Button {
+                        viewModel.logout()
+                    } label: {
+                        Label("Logout", systemImage: "arrow.right.circle")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                 }
             }
         }

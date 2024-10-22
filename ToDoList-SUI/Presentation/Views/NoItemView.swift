@@ -30,6 +30,7 @@ struct NoItemView: View {
                     .clipShape(.circle)
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

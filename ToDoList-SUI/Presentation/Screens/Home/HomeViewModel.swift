@@ -21,28 +21,31 @@ final class HomeViewModel {
     @ObservationIgnored private var isInitialize = false
     
     var list: [ToDoItem] = []
-    var done: Double {
+    // отображение прогресса выполненных задач
+    var progressCompleted: Double {
         list.count > 0 ? Double(list.count(where: { $0.isCompleted })) / Double(list.count) : 0
     }
-    
+    @ObservationIgnored private var isEdit = false
+
     init(router: Router, repository: DataRepository) {
         print("HomeViewModel: \(#function)")
         self.router = router
         self.repository = repository
+
+        // наблюдаем за добавлением и изменением записей
+        self.subscribeUpdate()
     }
     
     public func onShowView() {
         print("HomeViewModel: \(#function)")
-        guard isInitialize && isAuthorized() else { return }
+        guard Profile.isInitialized else { return }
+        guard isAuthorized() else { return }
+        guard !isEdit else {
+            isEdit = false
+            return
+        }
         
         loadData()
-    }
-    
-    public func initialize() {
-        print("HomeViewModel: \(#function)")
-        // наблюдаем за добавлением и изменением записей
-        subscribeUpdate()
-        isInitialize = !isAuthorized()
     }
     
     private func isAuthorized() -> Bool {
@@ -50,6 +53,11 @@ final class HomeViewModel {
             toLogin()
         }
         return !Profile.isRelogin
+    }
+    
+    public func logout() {
+        Profile.logout()
+        toLogin()
     }
     
     public func toggleCompleted(_ id: String) {
@@ -168,6 +176,7 @@ final class HomeViewModel {
     // MARK: - Navigation
     public func edit(id: String = "") {
         guard isAuthorized() else { return }
+        isEdit = true
         
         router.navigate(to: .edit(id: id))
     }

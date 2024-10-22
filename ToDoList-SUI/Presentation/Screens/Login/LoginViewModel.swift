@@ -13,27 +13,33 @@ final class LoginViewModel {
     @ObservationIgnored private let router: Router
     @ObservationIgnored private let repository: AuthRepository
     @ObservationIgnored private let validation: Validation
+    var isInitialized: Bool
     
-    var isSignInGoogle: Bool {
-        !clientID.isEmpty
-    }
-    var clientID = ""
     var login: String = ""
     var password: String = ""
     var isLoginDisabled: Bool {
         !(isCanClick && checkLogin() && checkPassword())
     }
-    @ObservationIgnored var isCanClick = true
+    @ObservationIgnored private var isCanClick = true
+    
+    var clientID = ""
+    var isSignInGoogle: Bool {
+        !clientID.isEmpty
+    }
+    
+    var isClose = false
     var viewError = ViewError.none
     
     init(
         router: Router,
         repository: AuthRepository,
-        validation: Validation
+        validation: Validation,
+        initialized: Bool
     ) {
         self.router = router
         self.repository = repository
         self.validation = validation
+        self.isInitialized = initialized
         
         // проверить авторизацию
         self.checkAuthorization()
@@ -48,12 +54,32 @@ final class LoginViewModel {
     }
     
     private func checkAuthorization() {
+        print("LoginViewModel: \(#function)")
         // сначала проверим необходим ли релогин
-        if Profile.isRelogin {
+        if Profile.isInitialized && Profile.isRelogin {
             logout()
         } else {
-            // проверить авторизацию
-            setAuthUser()
+            Task { [weak self] in
+                if !Profile.isInitialized {
+                    sleep(2)
+                }
+                await self?.fetchAuthUser()
+            }
+        }
+    }
+    
+    private func fetchAuthUser() async {
+        let result = await repository.fetchAuthUser()
+        switch result {
+        case .success(let user):
+            print("LoginViewModel: \(#function) on")
+            Profile.login(user: user)
+            toHome()
+        case .failure(let error):
+            isInitialized = true
+            guard Profile.isInitialized else { break }
+            Profile.logout()
+            showError(error)
         }
     }
     
@@ -66,31 +92,6 @@ final class LoginViewModel {
             case .success(_):
                 break
             case .failure(let error):
-                guard let networkError = error as? NetworkServiceError else { break }
-                switch networkError {
-                case .cancelled:
-                    break
-                default:
-                    // ошибки сети необходимо вывести алерт
-                    print(networkError.localizedDescription)
-                }
-            case .none:
-                break
-            }
-        }
-    }
-    
-    private func setAuthUser() {
-        print("LoginViewModel: \(#function)")
-
-        Task { [weak self] in
-            let result = await self?.repository.fetchAuthUser()
-            switch result {
-            case .success(let user):
-                Profile.login(user: user)
-                self?.toHome()
-            case .failure(let error):
-                Profile.logout()
                 self?.showError(error)
             case .none:
                 break
@@ -101,7 +102,7 @@ final class LoginViewModel {
     public func signIn() {
         guard !isLoginDisabled else { return }
         print("LoginViewModel: \(#function)")
-
+        
         isCanClick = false
         Task { [weak self] in
             guard let self else { return }
@@ -110,18 +111,18 @@ final class LoginViewModel {
             switch result {
             case .success(_):
                 // успешная авторизация, получить пользователя и перейти на основной экран
-                self.setAuthUser()
+                await self.fetchAuthUser()
             case .failure(let error):
+                isCanClick = true
                 self.showError(error)
             }
-            isCanClick = true
         }
     }
     
     public func signInGoogle() {
         guard !isSignInGoogle else { return }
         print("LoginViewModel: \(#function)")
-
+        
         Task { [weak self] in
             let result = await self?.repository.signInGoogle()
             switch result {
@@ -143,7 +144,7 @@ final class LoginViewModel {
             switch result {
             case .success(_):
                 // успешная авторизация, получить пользователя и перейти на основной экран
-                self?.setAuthUser()
+                await self?.fetchAuthUser()
             case .failure(let error):
                 self?.showError(error)
             case .none:
@@ -180,7 +181,9 @@ final class LoginViewModel {
     }
     
     private func toHome() {
-//        guard !isCanClick else { return }
+        //        guard !isCanClick else { return }
+        isClose = true
+        Profile.initialize()
         router.navigateToRoot()
     }
     

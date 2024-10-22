@@ -6,7 +6,7 @@
 //
 
 enum Route: Hashable {
-    case splash
+//    case splash // перенесено в login
 //    case home // root
     case edit(id: String)
     case login

@@ -16,18 +16,10 @@ struct ContentView: View {
             HomeScreen(viewModel: homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .login:
-                        LoginScreen(viewModel: DIManager.shared.resolve())
                     case .edit(let id):
                         EditScreen(id, viewModel: DIManager.shared.resolve())
-                    case .splash:
-                        SplashScreen()
-                            .onAppear {
-                                Task {
-                                    sleep(2)
-                                    homeViewModel.initialize()
-                                }
-                            }
+                    case .login:
+                        LoginScreen(viewModel: DIManager.shared.resolve())
                     case .registration:
                         RegistrationScreen(viewModel: DIManager.shared.resolve())
                     case .resetPassword:

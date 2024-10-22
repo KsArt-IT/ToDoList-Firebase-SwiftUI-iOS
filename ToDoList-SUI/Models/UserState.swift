@@ -17,12 +17,18 @@ public enum Profile {
 
     // Флаг для проверки, нужно ли перелогиниваться
     private(set) static var isRelogin: Bool = true
-
+    // Отобразить SplashScreen если false
+    private(set) static var isInitialized = false
+    
     static func login(user: UserAuth) {
         self.user = user
     }
     
     static func logout() {
         self.user = nil
+    }
+    
+    static func initialize() {
+        self.isInitialized = true
     }
 }

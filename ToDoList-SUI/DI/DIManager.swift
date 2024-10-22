@@ -30,7 +30,7 @@ class DIManager {
     //MARK: - Регистрация зависимостей
     private func registerRouter() {
         print(#function)
-        container.register(Router.self) { _ in RouterApp(.splash) }
+        container.register(Router.self) { _ in RouterApp(.login) }
             .inObjectScope(.weak)
     }
     
@@ -84,7 +84,8 @@ class DIManager {
             LoginViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(AuthRepository.self)!,
-                validation: r.resolve(Validation.self)!
+                validation: r.resolve(Validation.self)!,
+                initialized: Profile.isInitialized
             )
         }
     }
