@@ -14,13 +14,21 @@ final class ResetViewModel {
     @ObservationIgnored private let repository: AuthRepository
     @ObservationIgnored private let validation: Validation
     
-    var email: String = ""
+    var email: String = "" {
+        didSet {
+            emailError = ""
+        }
+    }
     var isButtonDisabled: Bool {
         !(isCanClick && checkEmail())
     }
-    @ObservationIgnored var isCanClick = true
-    var viewError = ViewError.none
-
+    @ObservationIgnored private var isCanClick = true
+    var showToast = ""
+    var showAlert = ""
+    @ObservationIgnored private var actionAlertToLogin = false
+    
+    var emailError = ""
+    
     var time = "" // задержка перед следующей отправкой
     @ObservationIgnored private var timer: Timer?
     @ObservationIgnored private var counter = 0
@@ -50,7 +58,9 @@ final class ResetViewModel {
             switch result {
             case .success(_):
                 // успешная регистрация, перейти на экран логина
-                self.onLogin()
+                // показать алерт
+                actionAlertToLogin = true
+                showAlert = "Ok"
             case .failure(let error):
                 self.showError(error)
             }
@@ -64,7 +74,7 @@ final class ResetViewModel {
         time = counter.description
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self else { return }
-
+            
             self.counter -= 1
             if self.counter < 0 {
                 self.time = ""
@@ -79,17 +89,23 @@ final class ResetViewModel {
     private func showError(_ error: Error) {
         guard let error = error as? NetworkServiceError else { return }
         print("LoginViewModel: \(#function), Error: \(error.localizedDescription)")
-        self.viewError = switch error {
+        switch error {
         case .invalidRequest, .invalidResponse, .invalidDatabase,
                 .statusCode(_, _), .decodingError(_), .networkError(_),
                 .invalidCredential, .userNotFound, .userDisabled:
-                .alert(message: error.localizedDescription)
+            showAlert = error.localizedDescription
         case .invalidEmail, .emailAlreadyInUse:
-                .email(message: error.localizedDescription)
+            emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
-                .password(message: error.localizedDescription)
+            break
         case .cancelled:
-                .none
+            break
+        }
+    }
+    
+    public func actionAlert() {
+        if actionAlertToLogin {
+            onLogin()
         }
     }
     

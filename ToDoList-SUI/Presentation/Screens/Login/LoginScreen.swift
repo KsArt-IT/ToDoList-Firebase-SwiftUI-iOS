@@ -34,7 +34,8 @@ struct LoginScreen: View {
                     .layoutPriority(1)
                     .padding()
                     .background()
-                    .cornerRadius(10)
+                    .cornerRadius(Constants.cornerRadius)
+                    .errorMessage(viewModel.emailError, cornerRadius: Constants.cornerRadius)
                     .keyboardType(.emailAddress)
                     .submitLabel(.next)
                     .onSubmit {
@@ -47,7 +48,8 @@ struct LoginScreen: View {
                     .layoutPriority(1)
                     .padding()
                     .background()
-                    .cornerRadius(10)
+                    .cornerRadius(Constants.cornerRadius)
+                    .errorMessage(viewModel.passwordError, cornerRadius: Constants.cornerRadius)
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
                     .onSubmit {
@@ -81,6 +83,8 @@ struct LoginScreen: View {
             .navigationTitle("Authorization")
             .navigationBarBackButtonHidden(true) // скрыть кнопку назад
             .interactiveDismissDisabled() // закрывать представление и запретить навигацию назад
+            .showToast($viewModel.showToast)
+            .showAlert($viewModel.showAlert)
             .background {
                 BackgroundView()
             }

@@ -25,7 +25,8 @@ struct ResetScreen: View {
                 .font(.body)
                 .padding()
                 .background()
-                .cornerRadius(10)
+                .cornerRadius(Constants.cornerRadius)
+                .errorMessage(viewModel.emailError, cornerRadius: Constants.cornerRadius)
                 .keyboardType(.emailAddress)
                 .submitLabel(.done)
                 .onSubmit {
@@ -42,6 +43,8 @@ struct ResetScreen: View {
         }
         .padding()
         .navigationTitle("Title Reset password")
+        .showToast($viewModel.showToast)
+        .showAlert($viewModel.showAlert, action: viewModel.actionAlert)
         .background {
             BackgroundView()
         }

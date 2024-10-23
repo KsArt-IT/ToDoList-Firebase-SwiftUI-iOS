@@ -31,7 +31,8 @@ struct RegistrationScreen: View {
                 .font(.body)
                 .padding()
                 .background()
-                .cornerRadius(10)
+                .cornerRadius(Constants.cornerRadius)
+                .errorMessage(viewModel.emailError, cornerRadius: Constants.cornerRadius)
                 .keyboardType(.emailAddress)
                 .submitLabel(.next)
                 .onSubmit {
@@ -43,7 +44,8 @@ struct RegistrationScreen: View {
                 .font(.body)
                 .padding()
                 .background()
-                .cornerRadius(10)
+                .cornerRadius(Constants.cornerRadius)
+                .errorMessage(viewModel.passwordError, cornerRadius: Constants.cornerRadius)
                 .keyboardType(.alphabet)
                 .submitLabel(.next)
                 .onSubmit {
@@ -53,7 +55,8 @@ struct RegistrationScreen: View {
                 .font(.body)
                 .padding()
                 .background()
-                .cornerRadius(10)
+                .cornerRadius(Constants.cornerRadius)
+                .errorMessage(viewModel.passwordConfirmError, cornerRadius: Constants.cornerRadius)
                 .keyboardType(.alphabet)
                 .submitLabel(.done)
                 .onSubmit {
@@ -66,6 +69,8 @@ struct RegistrationScreen: View {
         }
         .padding()
         .navigationTitle("Registration")
+        .showToast($viewModel.showToast)
+        .showAlert($viewModel.showAlert)
         .background {
             BackgroundView()
         }

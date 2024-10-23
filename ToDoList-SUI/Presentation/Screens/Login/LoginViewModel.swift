@@ -15,8 +15,16 @@ final class LoginViewModel {
     @ObservationIgnored private let validation: Validation
     var isInitialized: Bool
     
-    var login: String = ""
-    var password: String = ""
+    var login: String = "" {
+        didSet {
+            emailError = ""
+        }
+    }
+    var password: String = "" {
+        didSet {
+            passwordError = ""
+        }
+    }
     var isLoginDisabled: Bool {
         !(isCanClick && checkLogin() && checkPassword())
     }
@@ -28,7 +36,11 @@ final class LoginViewModel {
     }
     
     var isClose = false
-    var viewError = ViewError.none
+    var showToast = ""
+    var showAlert = ""
+    
+    var emailError = ""
+    var passwordError = ""
     
     init(
         router: Router,
@@ -111,6 +123,7 @@ final class LoginViewModel {
             switch result {
             case .success(_):
                 // успешная авторизация, получить пользователя и перейти на основной экран
+                await self.showToastAuth()
                 await self.fetchAuthUser()
             case .failure(let error):
                 isCanClick = true
@@ -144,6 +157,7 @@ final class LoginViewModel {
             switch result {
             case .success(_):
                 // успешная авторизация, получить пользователя и перейти на основной экран
+                await self?.showToastAuth()
                 await self?.fetchAuthUser()
             case .failure(let error):
                 self?.showError(error)
@@ -161,18 +175,23 @@ final class LoginViewModel {
     private func showError(_ error: Error) {
         guard let error = error as? NetworkServiceError else { return }
         print("LoginViewModel: \(#function), Error: \(error.localizedDescription)")
-        self.viewError = switch error {
+        switch error {
         case .invalidRequest, .invalidResponse, .invalidDatabase,
                 .statusCode(_, _), .decodingError(_), .networkError(_),
                 .invalidCredential, .userNotFound, .userDisabled:
-                .alert(message: error.localizedDescription)
+            showAlert = error.localizedDescription
         case .invalidEmail, .emailAlreadyInUse:
-                .email(message: error.localizedDescription)
+            emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
-                .password(message: error.localizedDescription)
+            passwordError = error.localizedDescription
         case .cancelled:
-                .none
+            break
         }
+    }
+    
+    private func showToastAuth() async {
+        showToast = String(localized: "Successful authorization")
+        sleep(4)
     }
     
     // MARK: - Navigation
