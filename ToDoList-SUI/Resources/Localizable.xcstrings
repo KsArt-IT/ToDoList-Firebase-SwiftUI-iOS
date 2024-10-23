@@ -162,6 +162,22 @@
         }
       }
     },
+    "Error" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка"
+          }
+        }
+      }
+    },
     "Forgot your password?" : {
       "localizations" : {
         "ru" : {
@@ -293,6 +309,25 @@
         }
       }
     },
+    "Ok" : {
+      "shouldTranslate" : false
+    },
+    "passwords do not match" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "пароли не совпадают"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "паролі не збігаються"
+          }
+        }
+      }
+    },
     "Profile" : {
       "localizations" : {
         "ru" : {
@@ -326,7 +361,20 @@
       }
     },
     "Registration" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Регистрация"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Реєстрація"
+          }
+        }
+      }
     },
     "Reset password" : {
       "localizations" : {
@@ -389,6 +437,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Реєстрація"
+          }
+        }
+      }
+    },
+    "Successful authorization" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успешная авторизация"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успішна авторизація"
+          }
+        }
+      }
+    },
+    "Successful registration" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успешная регистрация"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успішна реєстрація"
           }
         }
       }
