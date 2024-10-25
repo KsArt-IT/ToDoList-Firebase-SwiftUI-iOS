@@ -10,17 +10,18 @@ import SwiftUI
 
 // Модификатор для отображения Alert при наличии ошибки
 struct AlertModifier: ViewModifier {
-    @Binding var message: String // Сообщение для отображения в Alert
+    typealias AlertType = (message: String, isError: Bool)
+    @Binding var alert: AlertType // Сообщение для отображения в Alert
     var action: () -> Void
     
     func body(content: Content) -> some View {
         content
-            .alert(isPresented: .constant(!message.isEmpty)) {
+            .alert(isPresented: .constant(!alert.message.isEmpty)) {
                 Alert(
-                    title: Text("Error"),
-                    message: Text(message),
+                    title: Text(alert.isError ? "Error": "Info"),
+                    message: Text(alert.message),
                     dismissButton: .default(Text("Ok")) {
-                        message = "" // Сброс сообщения после закрытия Alert
+                        alert = ("", alert.isError) // Сброс сообщения после закрытия Alert
                         action()
                     }
                 )
@@ -30,7 +31,7 @@ struct AlertModifier: ViewModifier {
 
 // Расширение для удобного использования модификатора
 extension View {
-    func showAlert(_ message: Binding<String>, action: @escaping () -> Void = {}) -> some View {
-        self.modifier(AlertModifier(message: message, action: action))
+    func showAlert(_ alert: Binding<AlertModifier.AlertType>, action: @escaping () -> Void = {}) -> some View {
+        self.modifier(AlertModifier(alert: alert, action: action))
     }
 }

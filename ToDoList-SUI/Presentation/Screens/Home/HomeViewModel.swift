@@ -26,6 +26,9 @@ final class HomeViewModel {
         list.count > 0 ? Double(list.count(where: { $0.isCompleted })) / Double(list.count) : 0
     }
     @ObservationIgnored private var isEdit = false
+    // отображение тостов и алертов
+    var toastMessage = ""
+    var alertMessage: AlertModifier.AlertType = ("", false)
 
     init(router: Router, repository: DataRepository) {
         print("HomeViewModel: \(#function)")
@@ -164,7 +167,25 @@ final class HomeViewModel {
     }
     
     private func showError(_ error: Error) {
+        guard let error = error as? NetworkServiceError else {
+            showAlert(error.localizedDescription, isError: true)
+            return
+        }
         print("Error: \(error.localizedDescription)")
+        switch error {
+        case .cancelled:
+            break
+        default:
+            showToast(error.localizedDescription)
+        }
+    }
+    
+    private func showToast(_ message: String) {
+        toastMessage = message
+    }
+    
+    private func showAlert(_ message: String, isError: Bool = false) {
+        alertMessage = (message, isError)
     }
     
     private func subscribeUpdate() {

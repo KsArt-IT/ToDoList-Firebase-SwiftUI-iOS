@@ -24,6 +24,7 @@ final class RegistrationViewModel {
             passwordError = ""
         }
     }
+    @ObservationIgnored private let confirmError = String(localized: "passwords do not match")
     var passwordConfirm: String = "" {
         didSet {
             if password.count == passwordConfirm.count && password != passwordConfirm {
@@ -37,13 +38,15 @@ final class RegistrationViewModel {
         !(isCanClick && checkLogin() && checkPassword())
     }
     @ObservationIgnored var isCanClick = true
-    var showToast = ""
-    var showAlert = ""
-    
+
+    // отображение тостов и алертов
+    var toastMessage = ""
+    var alertMessage: AlertModifier.AlertType = ("", false)
+
+    // Отображение ошибок в полях ввода
     var emailError = ""
     var passwordError = ""
     var passwordConfirmError = ""
-    @ObservationIgnored private let confirmError = String(localized: "passwords do not match")
     
     init(
         router: Router,
@@ -82,11 +85,6 @@ final class RegistrationViewModel {
         }
     }
     
-    private func showToastAuth() async {
-        showToast = String(localized: "Successful registration")
-        sleep(4)
-    }
-    
     private func showError(_ error: Error) {
         guard let error = error as? NetworkServiceError else { return }
         print("LoginViewModel: \(#function), Error: \(error.localizedDescription)")
@@ -94,7 +92,7 @@ final class RegistrationViewModel {
         case .invalidRequest, .invalidResponse, .invalidDatabase,
                 .statusCode(_, _), .decodingError(_), .networkError(_),
                 .invalidCredential, .userNotFound, .userDisabled:
-            showAlert = error.localizedDescription
+            showAlert(error.localizedDescription, isError: true)
         case .invalidEmail, .emailAlreadyInUse:
             emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
@@ -102,6 +100,19 @@ final class RegistrationViewModel {
         case .cancelled:
             break
         }
+    }
+    
+    private func showToastAuth() async {
+        showToast(String(localized: "Successful registration"))
+        sleep(4)
+    }
+    
+    private func showToast(_ message: String) {
+        toastMessage = message
+    }
+    
+    private func showAlert(_ message: String, isError: Bool = false) {
+        alertMessage = (message, isError)
     }
     
     // MARK: - Navigation

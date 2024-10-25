@@ -30,15 +30,18 @@ final class LoginViewModel {
     }
     @ObservationIgnored private var isCanClick = true
     
+    // Вход через гугл
     var clientID = ""
     var isSignInGoogle: Bool {
         !clientID.isEmpty
     }
     
     var isClose = false
-    var showToast = ""
-    var showAlert = ""
+    // отображение тостов и алертов
+    var toastMessage = ""
+    var alertMessage: AlertModifier.AlertType = ("", false)
     
+    // Отображение ошибок в полях ввода
     var emailError = ""
     var passwordError = ""
     
@@ -53,7 +56,7 @@ final class LoginViewModel {
         self.validation = validation
         self.isInitialized = initialized
         
-        // проверить авторизацию
+        // проверить авторизацию и получить дааные пользователя
         self.checkAuthorization()
     }
     
@@ -72,9 +75,7 @@ final class LoginViewModel {
             logout()
         } else {
             Task { [weak self] in
-                if !Profile.isInitialized {
-                    sleep(2)
-                }
+                await self?.showSplashIfNeed()
                 await self?.fetchAuthUser()
             }
         }
@@ -173,13 +174,16 @@ final class LoginViewModel {
     }
     
     private func showError(_ error: Error) {
-        guard let error = error as? NetworkServiceError else { return }
+        guard let error = error as? NetworkServiceError else {
+            showAlert(error.localizedDescription, isError: true)
+            return
+        }
         print("LoginViewModel: \(#function), Error: \(error.localizedDescription)")
         switch error {
         case .invalidRequest, .invalidResponse, .invalidDatabase,
                 .statusCode(_, _), .decodingError(_), .networkError(_),
                 .invalidCredential, .userNotFound, .userDisabled:
-            showAlert = error.localizedDescription
+            showToast(error.localizedDescription)
         case .invalidEmail, .emailAlreadyInUse:
             emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
@@ -190,8 +194,23 @@ final class LoginViewModel {
     }
     
     private func showToastAuth() async {
-        showToast = String(localized: "Successful authorization")
-        sleep(4)
+        showToast(String(localized: "Successful authorization"))
+//        sleep(4)
+    }
+    
+    private func showToast(_ message: String) {
+        toastMessage = message
+    }
+    
+    private func showAlert(_ message: String, isError: Bool = false) {
+        alertMessage = (message, isError)
+    }
+    
+    private func showSplashIfNeed() async {
+        if !Profile.isInitialized {
+            // пауза на отображение splashscreen
+            sleep(2)
+        }
     }
     
     // MARK: - Navigation

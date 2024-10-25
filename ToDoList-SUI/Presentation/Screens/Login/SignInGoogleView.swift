@@ -12,7 +12,7 @@ struct SignInGoogleView: View {
     var clientID: String
     // Выполнить логин в Firebase
     var action: (String, String) -> Void
-    // Изменить состояние
+    // Изменить состояние на закрыть, выполнить действие
     var closed: () -> Void
     
     var body: some View {

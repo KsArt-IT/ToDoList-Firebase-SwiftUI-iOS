@@ -34,17 +34,18 @@ struct ResetScreen: View {
                 }
                 .padding(.vertical)
             ButtonBackgroundView("Reset password", disabled: viewModel.isButtonDisabled, onClick: viewModel.resetPassword)
+            Spacer()
             if !viewModel.time.isEmpty {
                 Text(viewModel.time)
                     .font(.title)
                     .padding()
             }
-            Spacer()
         }
         .padding()
         .navigationTitle("Title Reset password")
-        .showToast($viewModel.showToast)
-        .showAlert($viewModel.showAlert, action: viewModel.actionAlert)
+        // MARK: - Toast, Alert
+        .showToast($viewModel.toastMessage)
+        .showAlert($viewModel.alertMessage, action: viewModel.actionAlert)
         .background {
             BackgroundView()
         }

@@ -66,6 +66,9 @@ struct EditScreen: View {
                 }
             }
         }
+        // MARK: - Toast, Alert
+        .showToast($viewModel.toastMessage)
+        .showAlert($viewModel.alertMessage)
         // MARK: - Background
         .background {
             BackgroundView()

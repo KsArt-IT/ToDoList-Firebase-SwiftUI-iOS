@@ -19,21 +19,22 @@ final class ResetViewModel {
             emailError = ""
         }
     }
+    var emailError = ""
+
+    @ObservationIgnored private var isCanClick = true
     var isButtonDisabled: Bool {
         !(isCanClick && checkEmail())
     }
-    @ObservationIgnored private var isCanClick = true
-    var showToast = ""
-    var showAlert = ""
-    @ObservationIgnored private var actionAlertToLogin = false
+    // отображение тостов и алертов
+    var toastMessage = ""
+    var alertMessage: AlertModifier.AlertType = ("", false)
     
-    var emailError = ""
-    
-    var time = "" // задержка перед следующей отправкой
-    @ObservationIgnored private var timer: Timer?
-    @ObservationIgnored private var counter = 0
+    // не отправлять запросы на восстановление чаще
     @ObservationIgnored private let counterStart = 30
-    
+    @ObservationIgnored private var counter = 0
+    @ObservationIgnored private var timer: Timer?
+    var time = ""
+
     init(
         router: Router,
         repository: AuthRepository,
@@ -57,10 +58,8 @@ final class ResetViewModel {
             let result = await self.repository.resetPassword(email: self.email)
             switch result {
             case .success(_):
-                // успешная регистрация, перейти на экран логина
-                // показать алерт
-                actionAlertToLogin = true
-                showAlert = "Ok"
+                // показать алерт и перейти на логин
+                self.showAlert(String(localized: "password recovery"))
             case .failure(let error):
                 self.showError(error)
             }
@@ -93,7 +92,7 @@ final class ResetViewModel {
         case .invalidRequest, .invalidResponse, .invalidDatabase,
                 .statusCode(_, _), .decodingError(_), .networkError(_),
                 .invalidCredential, .userNotFound, .userDisabled:
-            showAlert = error.localizedDescription
+            showAlert(error.localizedDescription, isError: true)
         case .invalidEmail, .emailAlreadyInUse:
             emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
@@ -103,8 +102,13 @@ final class ResetViewModel {
         }
     }
     
+    private func showAlert(_ message: String, isError: Bool = false) {
+        alertMessage = (message, isError)
+    }
+    
     public func actionAlert() {
-        if actionAlertToLogin {
+        // если это не ошибка была показана, то перейти на логин
+        if !alertMessage.isError {
             onLogin()
         }
     }

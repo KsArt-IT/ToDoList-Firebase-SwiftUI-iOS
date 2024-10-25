@@ -31,6 +31,10 @@ final class EditViewModel {
         title.isEmpty
     }
     
+    // отображение тостов и алертов
+    var toastMessage = ""
+    var alertMessage: AlertModifier.AlertType = ("", false)
+
     init(router: Router, repository: DataRepository) {
         print("EditViewModel: \(#function)")
         self.router = router
@@ -39,6 +43,10 @@ final class EditViewModel {
     
     public func save() {
         print("EditViewModel: \(#function)")
+        guard !title.isEmpty else {
+            showToast(String(localized: "Enter the task name!"))
+            return
+        }
         let item = item.copy(
             date: combineDateWithTime(),
             title: title,
@@ -52,7 +60,7 @@ final class EditViewModel {
             case .success(_):
                 self?.close()
             case .failure(let error):
-                print("Error: \(error)")
+                self?.showError(error)
             case .none:
                 break
             }
@@ -68,7 +76,7 @@ final class EditViewModel {
             case .success(let item):
                 self?.setParams(item)
             case .failure(let error):
-                print("Error: \(error)")
+                self?.showError(error)
             case .none:
                 break
             }
@@ -97,6 +105,28 @@ final class EditViewModel {
 
         let dateTime = calendar.date(from: dateComponents) ?? date ?? time ?? Date()
         return dateTime
+    }
+    
+    private func showError(_ error: Error) {
+        guard let error = error as? NetworkServiceError else {
+            showAlert(error.localizedDescription, isError: true)
+            return
+        }
+        print("Error: \(error.localizedDescription)")
+        switch error {
+        case .cancelled:
+            break
+        default:
+            showToast(error.localizedDescription)
+        }
+    }
+
+    private func showToast(_ message: String) {
+        toastMessage = message
+    }
+    
+    private func showAlert(_ message: String, isError: Bool = false) {
+        alertMessage = (message, isError)
     }
     
     // MARK: - Nagigation

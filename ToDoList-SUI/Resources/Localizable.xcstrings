@@ -162,6 +162,9 @@
         }
       }
     },
+    "Enter the task name!" : {
+
+    },
     "Error" : {
       "localizations" : {
         "ru" : {
@@ -222,6 +225,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введено неправильний пароль."
+          }
+        }
+      }
+    },
+    "Info" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Информация"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інформація"
           }
         }
       }
@@ -311,6 +330,28 @@
     },
     "Ok" : {
       "shouldTranslate" : false
+    },
+    "password recovery" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A password recovery request has been sent to your email!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На ваш email был отправлен запрос на восстановления пароля!"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На ваш email було надіслано запит на відновлення пароля!"
+          }
+        }
+      }
     },
     "passwords do not match" : {
       "localizations" : {

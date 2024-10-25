@@ -83,8 +83,10 @@ struct LoginScreen: View {
             .navigationTitle("Authorization")
             .navigationBarBackButtonHidden(true) // скрыть кнопку назад
             .interactiveDismissDisabled() // закрывать представление и запретить навигацию назад
-            .showToast($viewModel.showToast)
-            .showAlert($viewModel.showAlert)
+            // MARK: - Toast, Alert
+            .showToast($viewModel.toastMessage)
+            .showAlert($viewModel.alertMessage)
+            // MARK: - Background
             .background {
                 BackgroundView()
             }

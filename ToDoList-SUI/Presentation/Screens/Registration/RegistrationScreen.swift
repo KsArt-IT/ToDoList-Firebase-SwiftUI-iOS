@@ -69,8 +69,10 @@ struct RegistrationScreen: View {
         }
         .padding()
         .navigationTitle("Registration")
-        .showToast($viewModel.showToast)
-        .showAlert($viewModel.showAlert)
+        // MARK: - Toast, Alert
+        .showToast($viewModel.toastMessage)
+        .showAlert($viewModel.alertMessage)
+        // MARK: - Background
         .background {
             BackgroundView()
         }
