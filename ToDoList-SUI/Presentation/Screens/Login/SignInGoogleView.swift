@@ -8,12 +8,11 @@
 import SwiftUI
 import GoogleSignIn
 
+// Отображение ViewController с логином через google
 struct SignInGoogleView: View {
-    var clientID: String
-    // Выполнить логин в Firebase
+    @Binding var clientID: String
+    // Передать токен
     var action: (String, String) -> Void
-    // Изменить состояние на закрыть, выполнить действие
-    var closed: () -> Void
     
     var body: some View {
         VStack{
@@ -33,7 +32,7 @@ struct SignInGoogleView: View {
         
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootViewController = windowScene.windows.first?.rootViewController else {
-            closed()
+            close()
             return
         }
         GIDSignIn.sharedInstance.configuration = config
@@ -42,13 +41,18 @@ struct SignInGoogleView: View {
             
             if let error {
                 print("Error doing Google Sign-In, \(error.localizedDescription)")
-                closed()
+                close()
                 return
             }
             
             guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
             
             action(idToken, user.accessToken.tokenString)
+            close()
         }
+    }
+    
+    private func close() {
+        clientID = ""
     }
 }

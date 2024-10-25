@@ -163,7 +163,20 @@
       }
     },
     "Enter the task name!" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название задачи!"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введіть назву завдання!"
+          }
+        }
+      }
     },
     "Error" : {
       "localizations" : {

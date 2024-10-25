@@ -66,16 +66,16 @@ struct LoginScreen: View {
                 }
                 .padding(.vertical)
                 ButtonBackgroundView("Login", disabled: viewModel.isLoginDisabled, onClick: viewModel.signIn)
-                ButtonBackgroundView("Sign in with Google account", onClick: viewModel.signInGoogle)
+                ButtonBackgroundView("Sign in with Google account", onClick: viewModel.showSignInGoogle)
                     .padding(.top)
                 Spacer()
                 ButtonView("SignUp", onClick: viewModel.toRegistration)
                 
-                if viewModel.isSignInGoogle {
+                // отобразить окно логина через google
+                if !viewModel.signInGoogleWithClientID.isEmpty {
                     SignInGoogleView(
-                        clientID: viewModel.clientID,
-                        action: viewModel.submitSignInGoogle,
-                        closed: viewModel.onCloseSignInGoogle
+                        clientID: $viewModel.signInGoogleWithClientID,
+                        action: viewModel.signInGoogle
                     )
                 }
             }

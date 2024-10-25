@@ -31,10 +31,7 @@ final class LoginViewModel {
     @ObservationIgnored private var isCanClick = true
     
     // Вход через гугл
-    var clientID = ""
-    var isSignInGoogle: Bool {
-        !clientID.isEmpty
-    }
+    var signInGoogleWithClientID = ""
     
     var isClose = false
     // отображение тостов и алертов
@@ -133,17 +130,16 @@ final class LoginViewModel {
         }
     }
     
-    public func signInGoogle() {
-        guard !isSignInGoogle else { return }
+    public func showSignInGoogle() {
+        guard signInGoogleWithClientID.isEmpty else { return }
         print("LoginViewModel: \(#function)")
         
         Task { [weak self] in
             let result = await self?.repository.signInGoogle()
             switch result {
             case .success(let clientID):
-                self?.clientID = clientID
+                self?.signInGoogleWithClientID = clientID
             case .failure(let error):
-                self?.onCloseSignInGoogle()
                 self?.showError(error)
             case .none:
                 break
@@ -151,10 +147,9 @@ final class LoginViewModel {
         }
     }
     
-    public func submitSignInGoogle(idToken: String, accessToken: String) {
+    public func signInGoogle(idToken: String, accessToken: String) {
         Task { [weak self] in
             let result = await self?.repository.signIn(withIDToken: idToken, accessToken: accessToken)
-            self?.onCloseSignInGoogle()
             switch result {
             case .success(_):
                 // успешная авторизация, получить пользователя и перейти на основной экран
@@ -166,11 +161,6 @@ final class LoginViewModel {
                 break
             }
         }
-    }
-    
-    public func onCloseSignInGoogle() {
-        print("LoginViewModel: \(#function)")
-        clientID = ""
     }
     
     private func showError(_ error: Error) {
