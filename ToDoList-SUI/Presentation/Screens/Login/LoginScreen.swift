@@ -22,12 +22,12 @@ struct LoginScreen: View {
     
     var body: some View {
         if viewModel.isInitialized && !viewModel.isClose {
-            VStack {
+            VStack(spacing: 16) {
                 Image("loginLogo")
                     .resizable()
                     .layoutPriority(-1)
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(maxWidth: 100, maxHeight: 100)
                 TextField("Type email", text: $viewModel.login)
                     .focused($focusedField, equals: .email)
                     .font(.body)
@@ -41,7 +41,6 @@ struct LoginScreen: View {
                     .onSubmit {
                         focusedField = .password  // Переключаемся на следующее поле
                     }
-                    .padding(.vertical)
                 SecureField("Type password", text: $viewModel.password)
                     .focused($focusedField, equals: .password)
                     .font(.body)
@@ -55,19 +54,13 @@ struct LoginScreen: View {
                     .onSubmit {
                         focusedField = nil  // Скрываем клавиатуру после завершения ввода
                     }
-                Button {
+                Button("Forgot your password?") {
                     viewModel.toResetPassword()
-                } label: {
-                    HStack {
-                        Spacer()
-                        Text("Forgot your password?")
-                            .foregroundStyle(.text)
-                    }
                 }
-                .padding(.vertical)
+                .foregroundStyle(.text)
+                .frame(maxWidth: .infinity, alignment: .trailing)
                 ButtonBackgroundView("Login", disabled: viewModel.isLoginDisabled, onClick: viewModel.signIn)
                 ButtonBackgroundView("Sign in with Google account", onClick: viewModel.showSignInGoogle)
-                    .padding(.top)
                 Spacer()
                 ButtonView("SignUp", onClick: viewModel.toRegistration)
                 
@@ -79,7 +72,7 @@ struct LoginScreen: View {
                     )
                 }
             }
-            .padding()
+            .padding(.horizontal)
             .navigationTitle("Authorization")
             .navigationBarBackButtonHidden(true) // скрыть кнопку назад
             .interactiveDismissDisabled() // закрывать представление и запретить навигацию назад
