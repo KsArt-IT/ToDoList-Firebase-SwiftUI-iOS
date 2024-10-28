@@ -8,7 +8,7 @@
 enum Route: Hashable {
 //    case splash // перенесено в login
 //    case home // root
-    case edit(id: String)
+    case edit(item: ToDoItem?)
     case login
     case registration
     case resetPassword

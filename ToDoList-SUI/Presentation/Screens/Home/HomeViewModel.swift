@@ -134,26 +134,6 @@ final class HomeViewModel {
         }
     }
     
-    private func loadData(by id: String) {
-        guard !id.isEmpty else {
-            loadData()
-            return
-        }
-        
-        Task { [weak self] in
-            let result = await self?.repository.fetchData(id)
-            switch result {
-            case .success(let item):
-                guard let item else { break }
-                self?.updateList(item)
-            case .failure(let error):
-                self?.showError(error)
-            case .none:
-                break
-            }
-        }
-    }
-    
     private func updateList(_ newItem: ToDoItem) {
         var newList = list.filter { $0.id != newItem.id }
         newList.append(newItem)
@@ -190,16 +170,16 @@ final class HomeViewModel {
     
     private func subscribeUpdate() {
         repository.updatePublisher
-            .sink(receiveValue: loadData)
+            .sink(receiveValue: updateList)
             .store(in: &cancellables)
     }
-    
+
     // MARK: - Navigation
-    public func edit(id: String = "") {
+    public func edit(_ item: ToDoItem? = nil) {
         guard isAuthorized() else { return }
         isEdit = true
         
-        router.navigate(to: .edit(id: id))
+        router.navigate(to: .edit(item: item))
     }
     
     private func toLogin() {

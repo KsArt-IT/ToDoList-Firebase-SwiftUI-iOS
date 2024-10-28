@@ -10,9 +10,9 @@ import SwiftUI
 struct ItemView: View {
     private var item: ToDoItem
     private let toggle: (String) -> Void
-    private let action: (String) -> Void
+    private let action: (ToDoItem) -> Void
     
-    init(item: ToDoItem, toggle:  @escaping (String) -> Void, action: @escaping (String) -> Void) {
+    init(item: ToDoItem, toggle:  @escaping (String) -> Void, action: @escaping (ToDoItem) -> Void) {
         self.item = item
         self.toggle = toggle
         self.action = action
@@ -41,7 +41,7 @@ struct ItemView: View {
             .buttonStyle(.borderless)
         }
         .onTapGesture {
-            action(item.id)
+            action(item)
         }
         .padding()
         .background(Color.backgroundFirst.opacity(0.2))

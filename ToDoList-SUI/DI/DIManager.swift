@@ -35,9 +35,9 @@ class DIManager {
     }
     
     private func registerReposiroty() {
-        container.register(DataService.self) { _ in LocalDataServiceImpl() }
+        container.register(DataService.self) { _ in FirestoreDataServiceImpl() }
         container.register(DataRepository.self) { r in
-            LocalDataRopositoryImpl(service: r.resolve(DataService.self)!)
+            FirestoreDataRepositoryImpl(service: r.resolve(DataService.self)!)
         }
         .inObjectScope(.container)
     }

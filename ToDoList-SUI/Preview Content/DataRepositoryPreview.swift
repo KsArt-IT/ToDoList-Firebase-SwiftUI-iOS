@@ -9,21 +9,18 @@ import Foundation
 import Combine
 
 final class DataRepositoryPreview: DataRepository {
+    
     private var items: [ToDoItem] = []
     
     init() {
         previewData()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.updateSubject.send("")
+//            self?.updateSubject.send("")
         }
     }
     
     func fetchData() async -> Result<[ToDoItem], any Error> {
         .success(items)
-    }
-    
-    func fetchData(_ id: String) async -> Result<ToDoItem?, any Error> {
-        .success(nil)
     }
     
     func saveData(_ item: ToDoItem) async -> Result<Bool, any Error> {
@@ -34,8 +31,8 @@ final class DataRepositoryPreview: DataRepository {
         .success(true)
     }
     
-    private let updateSubject = PassthroughSubject<String, Never>()
-    public var updatePublisher: AnyPublisher<String, Never> {
+    private let updateSubject = PassthroughSubject<ToDoItem, Never>()
+    public var updatePublisher: AnyPublisher<ToDoItem, Never> {
         updateSubject.eraseToAnyPublisher()
     }
 

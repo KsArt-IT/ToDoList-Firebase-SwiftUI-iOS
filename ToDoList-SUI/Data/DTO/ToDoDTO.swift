@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct ToDoDTO: Identifiable, Codable {
-    let id: String
+    @DocumentID
+    var id: String?
     let date: Date
     let title: String
     let text: String
@@ -19,7 +21,7 @@ struct ToDoDTO: Identifiable, Codable {
 extension ToDoDTO {
     func mapToItem() -> ToDoItem {
         ToDoItem(
-            id: self.id,
+            id: self.id ?? "",
             date: self.date,
             title: self.title,
             text: self.text,

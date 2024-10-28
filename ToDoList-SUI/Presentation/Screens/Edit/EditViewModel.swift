@@ -67,23 +67,7 @@ final class EditViewModel {
         }
     }
     
-    public func loadItem(_ id: String) {
-        guard !id.isEmpty else { return }
-        
-        Task { [weak self] in
-            let result = await self?.repository.fetchData(id)
-            switch result {
-            case .success(let item):
-                self?.setParams(item)
-            case .failure(let error):
-                self?.showError(error)
-            case .none:
-                break
-            }
-        }
-    }
-    
-    private func setParams(_ item: ToDoItem?) {
+    public func editItem(_ item: ToDoItem?) {
         guard let item else { return }
         self.item = item
         self.newTask = false

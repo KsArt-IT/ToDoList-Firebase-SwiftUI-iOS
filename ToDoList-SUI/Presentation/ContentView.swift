@@ -16,8 +16,8 @@ struct ContentView: View {
             HomeScreen(viewModel: homeViewModel)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
-                    case .edit(let id):
-                        EditScreen(id, viewModel: DIManager.shared.resolve())
+                    case .edit(let item):
+                        EditScreen(item, viewModel: DIManager.shared.resolve())
                     case .login:
                         LoginScreen(viewModel: DIManager.shared.resolve())
                     case .registration:

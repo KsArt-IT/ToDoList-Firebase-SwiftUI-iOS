@@ -10,9 +10,9 @@ import SwiftUI
 struct EditScreen: View {
     @State var viewModel: EditViewModel
     
-    init(_ id: String = "", viewModel: EditViewModel) {
+    init(_ item: ToDoItem? = nil, viewModel: EditViewModel) {
         self.viewModel = viewModel
-        self.viewModel.loadItem(id)
+        self.viewModel.editItem(item)
     }
     
     // MARK: - Body
