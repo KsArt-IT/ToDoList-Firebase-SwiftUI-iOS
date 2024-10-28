@@ -21,11 +21,16 @@ struct HomeScreen: View {
                     viewModel.edit()
                 }
             } else {
-                List {
-                    ForEach(viewModel.list) { item in
-                        ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
-                    }
-                    .onDelete(perform: viewModel.delete)
+                List(viewModel.list) { item in
+                    ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                viewModel.delete(by: item.id)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .tint(.red)
+                        }
                 }
                 .listStyle(.plain)
                 

@@ -40,12 +40,12 @@ struct ItemView: View {
             .padding(8)
             .buttonStyle(.borderless)
         }
+        .padding()
+        .background(Color.backgroundFirst.opacity(0.3))
+        .cornerRadius(10)
         .onTapGesture {
             action(item)
         }
-        .padding()
-        .background(Color.backgroundFirst.opacity(0.2))
-        .cornerRadius(10)
         .listRowInsets(.init(top: 4, leading: 8, bottom: 4, trailing: 8))
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)

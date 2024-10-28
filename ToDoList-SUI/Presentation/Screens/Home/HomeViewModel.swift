@@ -29,12 +29,12 @@ final class HomeViewModel {
     // отображение тостов и алертов
     var toastMessage = ""
     var alertMessage: AlertModifier.AlertType = ("", false)
-
+    
     init(router: Router, repository: DataRepository) {
         print("HomeViewModel: \(#function)")
         self.router = router
         self.repository = repository
-
+        
         // наблюдаем за добавлением и изменением записей
         self.subscribeUpdate()
     }
@@ -86,6 +86,24 @@ final class HomeViewModel {
     }
     
     private func delete(_ index: Int) {
+        let item = list.remove(at: index)
+        Task { [weak self] in
+            let result = await self?.repository.deleteData(item.id)
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                self?.updateList(item)
+                self?.showError(error)
+            case .none:
+                break
+            }
+        }
+    }
+    
+    public func delete(by id: String) {
+        guard !id.isEmpty, let index = list.firstIndex(where: { $0.id == id }) else { return }
+        
         let item = list.remove(at: index)
         Task { [weak self] in
             let result = await self?.repository.deleteData(item.id)
@@ -173,7 +191,7 @@ final class HomeViewModel {
             .sink(receiveValue: updateList)
             .store(in: &cancellables)
     }
-
+    
     // MARK: - Navigation
     public func edit(_ item: ToDoItem? = nil) {
         guard isAuthorized() else { return }

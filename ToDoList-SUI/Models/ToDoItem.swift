@@ -22,7 +22,7 @@ extension ToDoItem {
         hasher.combine(title)
         hasher.combine(text)
     }
-
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         (lhs.date, lhs.title, lhs.text, lhs.isCompleted) == (rhs.date, rhs.title, rhs.text, rhs.isCompleted)
     }
@@ -44,7 +44,7 @@ extension ToDoItem {
             isCompleted: self.isCompleted
         )
     }
-
+    
     func copy(id: String? = nil, date: Date? = nil, title: String? = nil, text: String? = nil, isCritical: Bool? = nil, isCompleted: Bool? = nil) -> Self {
         ToDoItem(
             id: id ?? self.id,
