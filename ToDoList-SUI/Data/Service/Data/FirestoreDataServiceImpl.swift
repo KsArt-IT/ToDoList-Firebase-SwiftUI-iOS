@@ -62,8 +62,19 @@ final class FirestoreDataServiceImpl: DataService {
         guard Profile.user != nil else { return .failure(NetworkServiceError.cancelled) }
         
         do {
-            _ = try todoRef?.addDocument(from: item)
-            updateSubject.send(item)
+            let doc = try todoRef?.addDocument(from: item)
+            if let doc {
+                updateSubject.send(
+                    ToDoDTO(
+                        id: doc.documentID,
+                        date: item.date,
+                        title: item.title,
+                        text: item.text,
+                        isCritical: item.isCritical,
+                        isCompleted: item.isCompleted
+                    )
+                )
+            }
             return .success(true)
         } catch {
             return .failure(NetworkServiceError.networkError(error))
