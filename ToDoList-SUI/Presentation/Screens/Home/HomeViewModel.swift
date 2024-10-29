@@ -205,4 +205,9 @@ final class HomeViewModel {
         router.navigate(to: .login)
     }
     
+    public func toProfile() {
+        print("HomeViewModel: \(#function)")
+        router.navigate(to: .profile)
+    }
+    
 }

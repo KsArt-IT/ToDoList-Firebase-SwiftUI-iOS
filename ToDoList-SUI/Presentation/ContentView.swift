@@ -18,6 +18,8 @@ struct ContentView: View {
                     switch route {
                     case .edit(let item):
                         EditScreen(item, viewModel: DIManager.shared.resolve())
+                    case .profile:
+                        ProfileScreen(viewModel: DIManager.shared.resolve())
                     case .login:
                         LoginScreen(viewModel: DIManager.shared.resolve())
                     case .registration:

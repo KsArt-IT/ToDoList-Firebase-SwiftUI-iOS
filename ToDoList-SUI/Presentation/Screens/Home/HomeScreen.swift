@@ -56,6 +56,7 @@ struct HomeScreen: View {
                     Button {
                         // Действие для профиля
                         print("Profile tapped")
+                        viewModel.toProfile()
                     } label: {
                         Label("Profile", systemImage: "person.circle")
                     }

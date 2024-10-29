@@ -30,7 +30,7 @@ final class FirestoreDataServiceImpl: DataService {
     private var todoRef: CollectionReference? {
         guard let uid = Profile.user?.id else { return nil }
         
-        return db?.collection(DB.Users.name).document(uid).collection(DB.Todo.name)
+        return db?.collection(DB.Users.name).document(uid).collection(DB.Todos.name)
     }
     
     // ссылка на профиль пользователя

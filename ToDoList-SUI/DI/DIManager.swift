@@ -20,6 +20,7 @@ class DIManager {
         
         registerHomeViewModel()
         registerEditViewModel()
+        registerProfileViewModel()
         
         registerValidation()
         registerLoginViewModel()
@@ -65,6 +66,16 @@ class DIManager {
         print(#function)
         container.register(EditViewModel.self) { r in
             EditViewModel(
+                router: r.resolve(Router.self)!,
+                repository: r.resolve(DataRepository.self)!
+            )
+        }
+    }
+    
+    private func registerProfileViewModel() {
+        print(#function)
+        container.register(ProfileViewModel.self) { r in
+            ProfileViewModel(
                 router: r.resolve(Router.self)!,
                 repository: r.resolve(DataRepository.self)!
             )

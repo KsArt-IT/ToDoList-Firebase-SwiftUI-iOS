@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld" : {
+      "shouldTranslate" : false
+    },
     "A user with this email does not exist." : {
       "localizations" : {
         "ru" : {
@@ -210,6 +213,22 @@
         }
       }
     },
+    "female" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "женский"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "жіноча"
+          }
+        }
+      }
+    },
     "Forgot your password?" : {
       "localizations" : {
         "ru" : {
@@ -325,6 +344,22 @@
         }
       }
     },
+    "male" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "мужской"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "чоловічий"
+          }
+        }
+      }
+    },
     "Network error occurred" : {
       "localizations" : {
         "ru" : {
@@ -359,6 +394,22 @@
     },
     "Ok" : {
       "shouldTranslate" : false
+    },
+    "other" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "другой"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "інший"
+          }
+        }
+      }
     },
     "password recovery" : {
       "localizations" : {
@@ -539,6 +590,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Успішна реєстрація"
+          }
+        }
+      }
+    },
+    "Task Active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active tasks"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активные задачи"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активних завдань"
+          }
+        }
+      }
+    },
+    "Task Completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Task Completed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполненные задачи"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконані завдання"
+          }
+        }
+      }
+    },
+    "Task Created" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created tasks"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создано задач"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створено завдань"
+          }
+        }
+      }
+    },
+    "Task Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasks removed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалено задач"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалено завдань"
           }
         }
       }
