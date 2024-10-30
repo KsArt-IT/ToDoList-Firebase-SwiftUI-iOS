@@ -16,6 +16,7 @@ class DIManager {
         registerRouter()
         
         registerReposiroty()
+        registerReposirotyUser()
         registerReposirotyAuth()
         
         registerHomeViewModel()
@@ -39,6 +40,14 @@ class DIManager {
         container.register(DataService.self) { _ in FirestoreDataServiceImpl() }
         container.register(DataRepository.self) { r in
             FirestoreDataRepositoryImpl(service: r.resolve(DataService.self)!)
+        }
+        .inObjectScope(.container)
+    }
+    
+    private func registerReposirotyUser() {
+        container.register(UserService.self) { _ in FirestoreUserServiceImpl() }
+        container.register(UserRepository.self) { r in
+            FirestoreUserRepositoryImpl(service: r.resolve(UserService.self)!)
         }
         .inObjectScope(.container)
     }
@@ -77,7 +86,7 @@ class DIManager {
         container.register(ProfileViewModel.self) { r in
             ProfileViewModel(
                 router: r.resolve(Router.self)!,
-                repository: r.resolve(DataRepository.self)!
+                repository: r.resolve(UserRepository.self)!
             )
         }
     }

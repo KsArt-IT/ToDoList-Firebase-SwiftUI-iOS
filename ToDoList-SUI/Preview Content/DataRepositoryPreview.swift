@@ -14,9 +14,9 @@ final class DataRepositoryPreview: DataRepository {
     
     init() {
         previewData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
 //            self?.updateSubject.send("")
-        }
+//        }
     }
     
     func fetchData() async -> Result<[ToDoItem], any Error> {

@@ -20,6 +20,8 @@ struct ContentView: View {
                         EditScreen(item, viewModel: DIManager.shared.resolve())
                     case .profile:
                         ProfileScreen(viewModel: DIManager.shared.resolve())
+                    case .profileEdit(let profile):
+                        EmptyView()
                     case .login:
                         LoginScreen(viewModel: DIManager.shared.resolve())
                     case .registration:

@@ -25,19 +25,36 @@ struct UserDTO: Identifiable, Codable {
 }
 
 extension UserDTO {
-    func mapToData() -> UserData {
+    func mapToData(_ photoData: Data?) -> UserData {
         UserData(
             name: self.name,
             gender: self.gender,
             age: self.age,
             aboutMe: self.aboutMe,
             photoUrl: self.photoUrl,
-            photoData: nil,
+            photoData: photoData,
             
             taskCreated: self.taskCreated,
             taskActive: self.taskActive,
             taskDeleted: self.taskDeleted,
             taskCompleted: self.taskCompleted
         )
+    }
+    
+    func trasformToDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["name"] = self.name
+        dictionary["gender"] = self.gender
+        dictionary["age"] = self.age
+        dictionary["aboutMe"] = self.aboutMe
+        dictionary["photoUrl"] = self.photoUrl
+        
+        dictionary["taskCreated"] = self.taskCreated
+        dictionary["taskActive"] = self.taskActive
+        dictionary["taskDeleted"] = self.taskDeleted
+        dictionary["taskCompleted"] = self.taskCompleted
+        
+        return dictionary
     }
 }
