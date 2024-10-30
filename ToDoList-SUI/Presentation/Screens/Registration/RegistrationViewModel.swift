@@ -97,7 +97,7 @@ final class RegistrationViewModel {
             emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
             passwordError = error.localizedDescription
-        case .cancelled:
+        case .cancelled, .profileNotInitialized:
             break
         }
     }

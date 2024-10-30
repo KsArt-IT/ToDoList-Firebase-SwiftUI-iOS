@@ -27,6 +27,8 @@ enum NetworkServiceError: Error {
     case userNotFound
     case userDisabled
     case invalidCredential
+    case profileNotInitialized
+
     // MARK: - Description
     var localizedDescription: String {
         switch self {
@@ -43,6 +45,8 @@ enum NetworkServiceError: Error {
         case .networkError(let error):
             String(localized: "Network error occurred") + ": \(error.localizedDescription)."
         case .cancelled:
+            ""
+        case .profileNotInitialized:
             ""
         case .invalidEmail:
             String(localized: "Invalid email format.")

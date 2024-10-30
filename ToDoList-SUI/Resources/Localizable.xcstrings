@@ -834,7 +834,26 @@
       }
     },
     "Title Profile" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Профиль"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Профіль"
+          }
+        }
+      }
     },
     "Title Reset password" : {
       "localizations" : {

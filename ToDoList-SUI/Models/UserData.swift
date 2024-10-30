@@ -8,25 +8,27 @@
 import Foundation
 
 struct UserData: Hashable {
-    let name: String
-    let gender: Gender
-    let age: Int
-    let aboutMe: String
-    let photoUrl: String
-    let photoData: Data?
+    var email: String
+    var name: String
+    var gender: Gender
+    var age: Int
+    var aboutMe: String
+    var photoUrl: String
+    var photoData: Data?
     
     // Task
-    let taskCreated: Int
-    let taskActive: Int
-    let taskDeleted: Int
-    let taskCompleted: Int
+    var taskCreated: Int
+    var taskActive: Int
+    var taskDeleted: Int
+    var taskCompleted: Int
 }
 
 extension UserData {
     func mapToDTO() -> UserDTO {
         UserDTO(
+            email: self.email,
             name: self.name,
-            gender: self.gender,
+            gender: self.gender.toString(),
             age: self.age,
             aboutMe: self.aboutMe,
             photoUrl: self.photoUrl,
@@ -43,4 +45,17 @@ enum Gender: LocalizedStringResource, Codable {
     case male = "male"
     case female = "female"
     case other = "other"
+    
+    func toString() -> String {
+        self.rawValue.key
+    }
+    
+    static func instance(_ key: String) -> Gender {
+        switch key {
+        case "male", male.rawValue.key: .male
+        case "female", female.rawValue.key: .female
+        case "other", other.rawValue.key: .other
+        default: .male
+        }
+    }
 }

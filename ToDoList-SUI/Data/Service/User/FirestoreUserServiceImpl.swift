@@ -31,12 +31,19 @@ final class FirestoreUserServiceImpl: UserService {
             
             return .success(user)
         } catch {
-            return .failure(NetworkServiceError.networkError(error))
+            print("FirestoreUserServiceImpl: \(error)")
+            switch error {
+            case DecodingError.valueNotFound(_, _):
+                return .failure(NetworkServiceError.profileNotInitialized)
+            default:
+                return .failure(NetworkServiceError.networkError(error))
+            }
         }
         
     }
     
     func saveUser(user: UserDTO) async -> Result<Bool, any Error> {
+        print("FirestoreUserServiceImpl: \(#function)")
         guard Profile.user != nil else { return .failure(NetworkServiceError.cancelled) }
         
         do {
@@ -44,6 +51,7 @@ final class FirestoreUserServiceImpl: UserService {
             
             return .success(true)
         } catch {
+            print("FirestoreUserServiceImpl: \(#function) error: \(error)")
             return .failure(NetworkServiceError.networkError(error))
         }
         

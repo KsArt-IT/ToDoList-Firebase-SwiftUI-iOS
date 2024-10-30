@@ -13,6 +13,7 @@ final class HomeViewModel {
     
     @ObservationIgnored private let router: Router
     @ObservationIgnored private let repository: DataRepository
+    @ObservationIgnored private let userRepository: UserRepository
     @ObservationIgnored private var cancellables: Set<AnyCancellable> = []
     
     @ObservationIgnored private var taskLoadData: Task<(), Never>?
@@ -30,10 +31,13 @@ final class HomeViewModel {
     var toastMessage = ""
     var alertMessage: AlertModifier.AlertType = ("", false)
     
-    init(router: Router, repository: DataRepository) {
+    @ObservationIgnored private var profile: UserData?
+    
+    init(router: Router, repository: DataRepository, userRepository: UserRepository) {
         print("HomeViewModel: \(#function)")
         self.router = router
         self.repository = repository
+        self.userRepository = userRepository
         
         // наблюдаем за добавлением и изменением записей
         self.subscribeUpdate()
@@ -49,6 +53,62 @@ final class HomeViewModel {
         }
         
         loadData()
+        if profile == nil {
+            loadProfile()
+        }
+    }
+    
+    // MARK: - Profile
+    private func loadProfile() {
+        Task {
+            let result = await userRepository.loadUser()
+            switch result {
+            case .success(let user):
+                profile = user
+            case .failure(let error):
+                switch error {
+                case NetworkServiceError.profileNotInitialized:
+                    initProfile()
+                default:
+                    print("HomeViewModel: \(#function) error: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func saveProfile() {
+        print("HomeViewModel: \(#function)")
+        guard let profile else { return }
+        
+        Task {
+            let result = await userRepository.saveUser(user: profile)
+            switch result {
+            case .success(_):
+                break
+            case .failure(let error):
+                print("HomeViewModel: \(#function) error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func initProfile() {
+        guard profile == nil, let userData = Profile.user else { return }
+        
+        let user = UserData(
+            email: userData.email,
+            name: userData.name,
+            gender: Gender.male,
+            age: 0,
+            aboutMe: "",
+            photoUrl: userData.photoUrl ?? "",
+            
+            taskCreated: 0,
+            taskActive: 0,
+            taskDeleted: 0,
+            taskCompleted: 0
+        )
+        profile = user
+        saveProfile()
     }
     
     private func isAuthorized() -> Bool {

@@ -54,7 +54,21 @@ struct ProfileScreen: View {
             }
         }
         .padding(24)
+        // MARK: - Navigation
         .navigationTitle("Title Profile")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button {
+                    viewModel.close()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .foregroundStyle(.accent)
+                }
+            }
+        }
         // MARK: - Toast, Alert
         .showToast($viewModel.toastMessage)
         .showAlert($viewModel.alertMessage)

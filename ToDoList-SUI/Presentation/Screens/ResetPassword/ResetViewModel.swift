@@ -97,7 +97,7 @@ final class ResetViewModel {
             emailError = error.localizedDescription
         case .wrongPassword, .weakPassword:
             break
-        case .cancelled:
+        case .cancelled, .profileNotInitialized:
             break
         }
     }

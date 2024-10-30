@@ -65,7 +65,8 @@ class DIManager {
         container.register(HomeViewModel.self) { r in
             HomeViewModel(
                 router: r.resolve(Router.self)!,
-                repository: r.resolve(DataRepository.self)!
+                repository: r.resolve(DataRepository.self)!,
+                userRepository: r.resolve(UserRepository.self)!
             )
         }
         .inObjectScope(.weak)

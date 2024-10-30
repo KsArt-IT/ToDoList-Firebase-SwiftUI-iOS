@@ -9,10 +9,12 @@ import Foundation
 import FirebaseFirestore
 
 struct UserDTO: Identifiable, Codable {
+    // при изменении полей, изменить trasformToDictionary
     @DocumentID
     var id: String?
+    let email: String
     let name: String
-    let gender: Gender
+    let gender: String
     let age: Int
     let aboutMe: String
     let photoUrl: String
@@ -27,8 +29,9 @@ struct UserDTO: Identifiable, Codable {
 extension UserDTO {
     func mapToData(_ photoData: Data?) -> UserData {
         UserData(
+            email: self.email,
             name: self.name,
-            gender: self.gender,
+            gender: Gender.instance(self.gender),
             age: self.age,
             aboutMe: self.aboutMe,
             photoUrl: self.photoUrl,
@@ -44,6 +47,7 @@ extension UserDTO {
     func trasformToDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
         
+        dictionary["email"] = self.email
         dictionary["name"] = self.name
         dictionary["gender"] = self.gender
         dictionary["age"] = self.age

@@ -18,10 +18,10 @@ final class FirestoreDataServiceImpl: DataService {
 
     private lazy var db: Firestore? = {
         // [START setup]
-        let settings = FirestoreSettings()
+//        let settings = FirestoreSettings()
         // Set cache size to 100 MB
-        settings.cacheSettings = PersistentCacheSettings(sizeBytes: 100 * 1024 * 1024 as NSNumber)
-        Firestore.firestore().settings = settings
+//        settings.cacheSettings = PersistentCacheSettings(sizeBytes: 100 * 1024 * 1024 as NSNumber)
+//        Firestore.firestore().settings = settings
         // [END setup]
         return Firestore.firestore()
     }()

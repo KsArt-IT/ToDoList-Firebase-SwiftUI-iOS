@@ -85,5 +85,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen(viewModel: HomeViewModel(router: RouterApp(), repository: DataRepositoryPreview()))
+//    HomeScreen(viewModel: HomeViewModel(router: RouterApp(), repository: DataRepositoryPreview()))
 }

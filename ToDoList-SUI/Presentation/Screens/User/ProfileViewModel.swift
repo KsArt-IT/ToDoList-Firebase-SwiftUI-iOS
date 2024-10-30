@@ -61,6 +61,10 @@ final class ProfileViewModel {
     }
     
     // MARK: - Navigation
+    public func close() {
+        toHome()
+    }
+    
     public func toEdit() {
         router.navigate(to: .profileEdit(profile))
     }
