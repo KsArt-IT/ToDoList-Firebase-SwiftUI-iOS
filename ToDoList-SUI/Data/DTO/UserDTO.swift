@@ -1,19 +1,21 @@
 //
-//  UserData.swift
+//  UserDTO.swift
 //  ToDoList-SUI
 //
-//  Created by KsArT on 29.10.2024.
+//  Created by KsArT on 30.10.2024.
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct UserData {
+struct UserDTO: Identifiable, Codable {
+    @DocumentID
+    var id: String?
     let name: String
     let gender: Gender
     let age: Int
     let aboutMe: String
     let photoUrl: String
-    let photoData: Data?
     
     // Task
     let taskCreated: Int
@@ -22,14 +24,15 @@ struct UserData {
     let taskCompleted: Int
 }
 
-extension UserData {
-    func mapToDTO() -> UserDTO {
-        UserDTO(
+extension UserDTO {
+    func mapToData() -> UserData {
+        UserData(
             name: self.name,
             gender: self.gender,
             age: self.age,
             aboutMe: self.aboutMe,
             photoUrl: self.photoUrl,
+            photoData: nil,
             
             taskCreated: self.taskCreated,
             taskActive: self.taskActive,
@@ -37,10 +40,4 @@ extension UserData {
             taskCompleted: self.taskCompleted
         )
     }
-}
-
-enum Gender: LocalizedStringResource, Codable {
-    case male = "male"
-    case female = "female"
-    case other = "other"
 }
