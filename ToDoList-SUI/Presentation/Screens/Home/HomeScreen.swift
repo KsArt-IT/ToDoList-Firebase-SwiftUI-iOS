@@ -41,6 +41,9 @@ struct HomeScreen: View {
                         }
                 }
                 .listStyle(.plain)
+                .refreshable {
+                    await viewModel.reloadData()
+                }
                 
                 ProgressView("Completed", value: viewModel.progressCompleted)
                     .progressViewStyle(LinearProgressViewStyle())
@@ -93,5 +96,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-//    HomeScreen(viewModel: HomeViewModel(router: RouterApp(), repository: DataRepositoryPreview()))
+    //    HomeScreen(viewModel: HomeViewModel(router: RouterApp(), repository: DataRepositoryPreview()))
 }

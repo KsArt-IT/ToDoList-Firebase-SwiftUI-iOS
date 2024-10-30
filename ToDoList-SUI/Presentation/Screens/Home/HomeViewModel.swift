@@ -185,18 +185,15 @@ final class HomeViewModel {
     }
     
     // MARK: - Load
-    public func reloadData() {
+    public func reloadData() async {
         // вызывать каждый раз
-        fetchData()
+        await fetchData()
     }
     
     public func loadData() {
         // не чаще раз в x сек
         guard timeLoadData == nil || Date().timeIntervalSince(timeLoadData!) > timeDelay else { return }
-        fetchData()
-    }
-    
-    private func fetchData() {
+        
         guard isAuthorized() else { return }
         print("HomeViewModel: \(#function)")
         
@@ -204,18 +201,20 @@ final class HomeViewModel {
             taskLoadData?.cancel()
         }
         taskLoadData = Task { [weak self] in
-            guard let self else { return }
-            
-            let result = await self.repository.fetchData()
-            switch result {
-            case .success(let data):
-                self.sortList(data)
-            case .failure(let error):
-                self.showError(error)
-            }
-            self.taskLoadData = nil
-            self.timeLoadData = Date()
+            await self?.fetchData()
         }
+    }
+    
+    private func fetchData() async {
+        let result = await self.repository.fetchData()
+        switch result {
+        case .success(let data):
+            self.sortList(data)
+        case .failure(let error):
+            self.showError(error)
+        }
+        self.taskLoadData = nil
+        self.timeLoadData = Date()
     }
     
     private func updateList(_ newItem: ToDoItem) {
