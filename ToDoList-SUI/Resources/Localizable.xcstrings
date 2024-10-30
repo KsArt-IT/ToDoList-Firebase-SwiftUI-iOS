@@ -229,6 +229,22 @@
         }
       }
     },
+    "For tomorrow" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На завтра"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На завтра"
+          }
+        }
+      }
+    },
     "Forgot your password?" : {
       "localizations" : {
         "ru" : {
@@ -843,13 +859,13 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Профиль"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Профіль"
           }
         }

@@ -31,6 +31,14 @@ struct HomeScreen: View {
                             }
                             .tint(.red)
                         }
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                viewModel.forTomorrow(by: item.id)
+                            } label: {
+                                Label("For tomorrow", systemImage: "arrow.turn.up.right")
+                            }
+                            .tint(.blue)
+                        }
                 }
                 .listStyle(.plain)
                 

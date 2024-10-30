@@ -139,30 +139,8 @@ final class HomeViewModel {
         }
     }
     
-    public func delete(_ set: IndexSet) {
-        guard !set.isEmpty else { return }
-        
-        set.forEach { delete($0) }
-    }
-    
-    private func delete(_ index: Int) {
-        let item = list.remove(at: index)
-        Task { [weak self] in
-            let result = await self?.repository.deleteData(item.id)
-            switch result {
-            case .success(_):
-                break
-            case .failure(let error):
-                self?.updateList(item)
-                self?.showError(error)
-            case .none:
-                break
-            }
-        }
-    }
-    
     public func delete(by id: String) {
-        guard !id.isEmpty, let index = list.firstIndex(where: { $0.id == id }) else { return }
+        guard let index = getIndex(id) else { return }
         
         let item = list.remove(at: index)
         Task { [weak self] in
@@ -179,6 +157,34 @@ final class HomeViewModel {
         }
     }
     
+    public func forTomorrow(by id: String) {
+        guard let index = getIndex(id) else { return }
+        
+        // необходимо установить завтрашний день, а время оставить из даты
+        let item = list[index]
+        let date = item.date
+        
+        var cuttertdate = Date() // Текущая дата
+        let calendar = Calendar.current
+        if let tomorrow = calendar.date(byAdding: .day, value: 1, to: cuttertdate) {
+            var dateComponents = calendar.dateComponents([.year, .month, .day], from: tomorrow)
+            let timeComponents = calendar.dateComponents([.hour, .minute], from: date)
+            dateComponents.hour = timeComponents.hour
+            dateComponents.minute = timeComponents.minute
+            dateComponents.second = 0
+            if let updatedDate = calendar.date(from: dateComponents) {
+                updateList(item.copy(date: updatedDate, isCompleted: false))
+            }
+        }
+    }
+    
+    private func getIndex(_ id: String) -> Int? {
+        guard !id.isEmpty, let index = list.firstIndex(where: { $0.id == id }) else { return nil }
+        
+        return index
+    }
+    
+    // MARK: - Load
     public func reloadData() {
         // вызывать каждый раз
         fetchData()
@@ -224,6 +230,7 @@ final class HomeViewModel {
         self.list = newList.sorted(by: <)
     }
     
+    // MARK: - Show
     private func showError(_ error: Error) {
         guard let error = error as? NetworkServiceError else {
             showAlert(error.localizedDescription, isError: true)
