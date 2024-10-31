@@ -16,14 +16,23 @@ struct ItemView: View {
         if item.isCompleted {
             return Color.completed
         }
+        guard let timeMin = item.timeMin else { return Color.clear }
         // интервал между текущей датой и датой задачи
-        return switch Date().timeIntervalSince(item.date) {
-            case -3600...3600 where !item.isCritical, -3600...0 where item.isCritical:
+        return switch timeMin {
+        case -60...60 where !item.isCritical, 0...60 where item.isCritical:
                 Color.critical
-            case let diff where diff > 0: // > 0 значит уже прошло время
+            case let diff where diff < 0: // значит уже прошло время
                 Color.expired
             default:
                 Color.clear
+        }
+    }
+    private var time: String {
+        let date = item.date.toStringDateTime()
+        return if let timeMin = item.timeMin, timeMin > Int.min {
+            "\(date) (\(timeMin))"
+        } else {
+            date
         }
     }
     
@@ -43,7 +52,7 @@ struct ItemView: View {
                 Text(item.text)
                     .font(.subheadline)
                     .lineLimit(3)
-                Text(item.date.toStringDateTime())
+                Text(time)
                     .font(.subheadline)
             }
             Spacer()
@@ -74,12 +83,12 @@ struct ItemView: View {
 #Preview {
     List {
         ItemView(
-            item: ToDoItem(id: "1", date: Date(), title: "Title 1", text: "make", isCritical: true, isCompleted: false),
+            item: ToDoItem(id: "1", date: Date(), title: "Title 1", text: "make", isCritical: true, isCompleted: false, timeMin: nil),
             toggle: {_ in },
             action: {_ in }
         )
         ItemView(
-            item: ToDoItem(id: "2", date: Date(), title: "Title 2", text: "make", isCritical: true, isCompleted: false),
+            item: ToDoItem(id: "2", date: Date(), title: "Title 2", text: "make", isCritical: true, isCompleted: false, timeMin: nil),
             toggle: {_ in },
             action: {_ in }
         )

@@ -44,7 +44,9 @@ final class DataRepositoryPreview: DataRepository {
                 title: "Element-\(num)",
                 text: "Go to",
                 isCritical: num % 2 == 0,
-                isCompleted: num % 5 == 0
+                isCompleted: num % 5 == 0,
+                
+                timeMin: nil
             )
             items.append(item)
         }

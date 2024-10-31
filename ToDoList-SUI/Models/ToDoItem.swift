@@ -14,17 +14,14 @@ struct ToDoItem: Identifiable, Hashable, Comparable {
     let text: String
     let isCritical: Bool
     let isCompleted: Bool
+    
+    let timeMin: Int?
 }
 
 extension ToDoItem {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(date)
-        hasher.combine(title)
-        hasher.combine(text)
-    }
     
     static func == (lhs: Self, rhs: Self) -> Bool {
-        (lhs.date, lhs.title, lhs.text, lhs.isCompleted) == (rhs.date, rhs.title, rhs.text, rhs.isCompleted)
+        (lhs.date, lhs.title, lhs.text, lhs.isCompleted, lhs.timeMin) == (rhs.date, rhs.title, rhs.text, rhs.isCompleted, lhs.timeMin)
     }
     
     // Реализуем оператор меньше для сравнения задач по дате
@@ -45,14 +42,16 @@ extension ToDoItem {
         )
     }
     
-    func copy(id: String? = nil, date: Date? = nil, title: String? = nil, text: String? = nil, isCritical: Bool? = nil, isCompleted: Bool? = nil) -> Self {
+    func copy(id: String? = nil, date: Date? = nil, title: String? = nil, text: String? = nil, isCritical: Bool? = nil, isCompleted: Bool? = nil, timeMin: Int? = nil) -> Self {
         ToDoItem(
             id: id ?? self.id,
             date: date ?? self.date,
             title: title ?? self.title,
             text: text ?? self.text,
             isCritical: isCritical ?? self.isCritical,
-            isCompleted: isCompleted ?? self.isCompleted
+            isCompleted: isCompleted ?? self.isCompleted,
+            
+            timeMin: timeMin ?? self.timeMin
         )
     }
 }

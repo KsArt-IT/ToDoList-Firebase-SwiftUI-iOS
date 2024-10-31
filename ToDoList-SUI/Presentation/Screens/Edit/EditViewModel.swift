@@ -19,7 +19,9 @@ final class EditViewModel {
         title: "",
         text: "",
         isCritical: false,
-        isCompleted: false
+        isCompleted: false,
+        
+        timeMin: nil
     )
     var newTask = true
     var title = ""

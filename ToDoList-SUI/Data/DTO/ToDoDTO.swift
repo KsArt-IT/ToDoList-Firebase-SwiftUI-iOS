@@ -26,7 +26,9 @@ extension ToDoDTO {
             title: self.title,
             text: self.text,
             isCritical: self.isCritical,
-            isCompleted: self.isCompleted
+            isCompleted: self.isCompleted,
+            
+            timeMin: nil
         )
     }
 }

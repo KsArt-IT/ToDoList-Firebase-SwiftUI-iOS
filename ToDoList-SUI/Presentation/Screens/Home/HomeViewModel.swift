@@ -226,7 +226,49 @@ final class HomeViewModel {
     private func sortList(_ newList: [ToDoItem]) {
         guard isAuthorized() else { return }
         
-        self.list = newList.sorted(by: <)
+        Task { [weak self] in
+            let listSorted = newList.sorted(by: <)
+            if self?.list != listSorted {
+                print("HomeViewModel: \(#function) list sorted")
+                self?.changeTime(listSorted)
+            }
+        }
+    }
+    
+    private func changeTime(_ newList: [ToDoItem]) {
+        guard !newList.isEmpty else {
+            if self.list != newList {
+                self.list = newList
+            }
+            return
+        }
+        var changedList = newList
+        let currentDate = Date()
+        
+        for index in 0..<newList.endIndex {
+            let item = newList[index]
+            var timeMin: Int?
+            if item.isCompleted {
+                timeMin = nil
+            } else {
+                let interval = item.date.timeIntervalSince(currentDate)
+                timeMin = switch interval {
+                case -3600...3600:
+                    Int(interval / 60)
+                case let diff where diff < 0: // прошло время
+                    Int.min
+                default:
+                    nil
+                }
+            }
+            if item.timeMin != timeMin {
+                changedList[index] = item.copy(timeMin: timeMin)
+            }
+        }
+        if self.list != changedList {
+            print("HomeViewModel: \(#function) list changed")
+            self.list = changedList
+        }
     }
     
     // MARK: - Show
