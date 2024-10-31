@@ -21,6 +21,7 @@ final class HomeViewModel {
     @ObservationIgnored private let timeDelay: TimeInterval = 20
     @ObservationIgnored private var isInitialize = false
     
+    @ObservationIgnored private var timerUpdate: Timer?
     var list: [ToDoItem] = []
     // отображение прогресса выполненных задач
     var progressCompleted: Double {
@@ -41,6 +42,12 @@ final class HomeViewModel {
         
         // наблюдаем за добавлением и изменением записей
         self.subscribeUpdate()
+    }
+    
+    private func subscribeUpdate() {
+        repository.updatePublisher
+            .sink(receiveValue: updateList)
+            .store(in: &cancellables)
     }
     
     public func onShowView() {
@@ -123,6 +130,7 @@ final class HomeViewModel {
         toLogin()
     }
     
+    // MARK: - Operations
     public func toggleCompleted(_ id: String) {
         guard let item = list.first(where: { $0.id == id }) else { return }
         
@@ -217,6 +225,7 @@ final class HomeViewModel {
         self.timeLoadData = Date()
     }
     
+    // MARK: - Update
     private func updateList(_ newItem: ToDoItem) {
         var newList = list.filter { $0.id != newItem.id }
         newList.append(newItem)
@@ -235,14 +244,15 @@ final class HomeViewModel {
         }
     }
     
-    private func changeTime(_ newList: [ToDoItem]) {
+    private func changeTime(_ newList: [ToDoItem]?) {
+        guard let newList else { return }
         guard !newList.isEmpty else {
-            if self.list != newList {
-                self.list = newList
-            }
+            setList(newList)
             return
         }
         var changedList = newList
+        var change = false
+        
         let currentDate = Date()
         
         for index in 0..<newList.endIndex {
@@ -258,17 +268,47 @@ final class HomeViewModel {
                 case let diff where diff < 0: // прошло время
                     Int.min
                 default:
-                    nil
+                    Int.max
                 }
             }
             if item.timeMin != timeMin {
                 changedList[index] = item.copy(timeMin: timeMin)
+                change = true
             }
         }
-        if self.list != changedList {
-            print("HomeViewModel: \(#function) list changed")
-            self.list = changedList
+        setList(changedList, force: change)
+    }
+    
+    private func setList(_ list: [ToDoItem], force: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            if let self, force || self.list != list {
+                print("HomeViewModel: \(#function) list changed")
+                self.list = list
+                if self.timerUpdate == nil, !self.list.isEmpty {
+                    self.startTimer()
+                }
+            }
         }
+    }
+    
+    // MARK: - Timer
+    public func startTimer() {
+        guard self.timerUpdate == nil else { return }
+        
+        if !self.list.isEmpty && self.list.first(where: { $0.timeMin != nil && $0.timeMin! > -60 }) != nil {
+            print("HomeViewModel: \(#function) timer start")
+            self.timerUpdate = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+                self?.changeTime(self?.list)
+            }
+        }
+    }
+    
+    public func stopTimer() {
+        if let timerUpdate {
+            timerUpdate.invalidate()
+            print("HomeViewModel: \(#function) timer stop")
+        }
+        timerUpdate = nil
     }
     
     // MARK: - Show
@@ -292,12 +332,6 @@ final class HomeViewModel {
     
     private func showAlert(_ message: String, isError: Bool = false) {
         alertMessage = (message, isError)
-    }
-    
-    private func subscribeUpdate() {
-        repository.updatePublisher
-            .sink(receiveValue: updateList)
-            .store(in: &cancellables)
     }
     
     // MARK: - Navigation

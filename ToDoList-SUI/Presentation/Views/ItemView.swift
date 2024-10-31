@@ -11,7 +11,6 @@ struct ItemView: View {
     private var item: ToDoItem
     private let toggle: (String) -> Void
     private let action: (ToDoItem) -> Void
-    // TODO: статический цвет, потом переделать с использованием таймера
     private var borderColor: Color {
         if item.isCompleted {
             return Color.completed
@@ -29,7 +28,7 @@ struct ItemView: View {
     }
     private var time: String {
         let date = item.date.toStringDateTime()
-        return if let timeMin = item.timeMin, timeMin > Int.min {
+        return if let timeMin = item.timeMin, timeMin != Int.min, timeMin != Int.max {
             "\(date) (\(timeMin))"
         } else {
             date

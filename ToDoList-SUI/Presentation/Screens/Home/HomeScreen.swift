@@ -90,6 +90,10 @@ struct HomeScreen: View {
         }
         .onAppear {
             viewModel.onShowView()
+            viewModel.startTimer()
+        }
+        .onDisappear {
+            viewModel.stopTimer()
         }
     }
     
