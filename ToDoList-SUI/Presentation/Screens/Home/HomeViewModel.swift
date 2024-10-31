@@ -164,9 +164,9 @@ final class HomeViewModel {
         let item = list[index]
         let date = item.date
         
-        var cuttertdate = Date() // Текущая дата
         let calendar = Calendar.current
-        if let tomorrow = calendar.date(byAdding: .day, value: 1, to: cuttertdate) {
+        // добавим день к текущей дате
+        if let tomorrow = calendar.date(byAdding: .day, value: 1, to: Date()) {
             var dateComponents = calendar.dateComponents([.year, .month, .day], from: tomorrow)
             let timeComponents = calendar.dateComponents([.hour, .minute], from: date)
             dateComponents.hour = timeComponents.hour
