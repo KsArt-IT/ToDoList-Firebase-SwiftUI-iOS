@@ -11,6 +11,21 @@ struct ItemView: View {
     private var item: ToDoItem
     private let toggle: (String) -> Void
     private let action: (ToDoItem) -> Void
+    // TODO: статический цвет, потом переделать с использованием таймера
+    private var borderColor: Color {
+        if item.isCompleted {
+            return Color.completed
+        }
+        // интервал между текущей датой и датой задачи
+        return switch Date().timeIntervalSince(item.date) {
+            case -3600...3600 where !item.isCritical, -3600...0 where item.isCritical:
+                Color.critical
+            case let diff where diff > 0: // > 0 значит уже прошло время
+                Color.expired
+            default:
+                Color.clear
+        }
+    }
     
     init(item: ToDoItem, toggle:  @escaping (String) -> Void, action: @escaping (ToDoItem) -> Void) {
         self.item = item
@@ -42,7 +57,11 @@ struct ItemView: View {
         }
         .padding()
         .background(Color.backgroundFirst.opacity(0.3))
-        .cornerRadius(10)
+        .cornerRadius(Constants.cornerRadius)
+        .overlay(
+            RoundedRectangle(cornerRadius: Constants.cornerRadius)
+                .stroke(borderColor, lineWidth: 1)
+            )
         .onTapGesture {
             action(item)
         }
