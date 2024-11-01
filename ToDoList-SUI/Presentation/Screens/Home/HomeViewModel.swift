@@ -22,7 +22,11 @@ final class HomeViewModel {
     @ObservationIgnored private var isInitialize = false
     
     @ObservationIgnored private var timerUpdate: Timer?
-    var list: [ToDoItem] = []
+    var list: [ToDoItem] = [] {
+        didSet {
+            changeStatistics(.active, change: true)
+        }
+    }
     var listSearch: [ToDoItem] {
         if list.isEmpty || searchText.isEmpty && selectedTokens.isEmpty {
             list
@@ -47,7 +51,11 @@ final class HomeViewModel {
     var toastMessage = ""
     var alertMessage: AlertModifier.AlertType = ("", false)
     
-    @ObservationIgnored private var profile: UserData?
+    @ObservationIgnored private var profile: UserData? {
+        didSet {
+            saveProfile()
+        }
+    }
     
     init(router: Router, repository: DataRepository, userRepository: UserRepository) {
         print("HomeViewModel: \(#function)")
@@ -145,6 +153,27 @@ final class HomeViewModel {
         toLogin()
     }
     
+    // MARK: - Profile change task statistics
+    private func changeStatistics(_ stat: Statistics, change: Bool) {
+        switch stat {
+        case .created:
+            if change {
+                // это новый, добавить
+                profile?.taskCreated += 1
+            }
+        case .active:
+            profile?.taskActive = list.count(where: { $0.isActive() })
+        case .deleted:
+            profile?.taskDeleted += 1
+        case .completed:
+            if change {
+                profile?.taskCompleted += 1
+            } else {
+                profile?.taskCompleted -= 1
+            }
+        }
+    }
+    
     // MARK: - Operations
     public func toggleCompleted(_ id: String) {
         guard let item = list.first(where: { $0.id == id }) else { return }
@@ -153,7 +182,7 @@ final class HomeViewModel {
             let result = await self?.repository.saveData(item.copy(isCompleted: !item.isCompleted))
             switch result {
             case .success(_):
-                break
+                self?.changeStatistics(.completed, change: !item.isCompleted)
             case .failure(let error):
                 self?.showError(error)
             case .none:
@@ -170,7 +199,7 @@ final class HomeViewModel {
             let result = await self?.repository.deleteData(item.id)
             switch result {
             case .success(_):
-                break
+                self?.changeStatistics(.deleted, change: true)
             case .failure(let error):
                 self?.updateList(item)
                 self?.showError(error)
@@ -202,9 +231,7 @@ final class HomeViewModel {
     }
     
     private func getIndex(_ id: String) -> Int? {
-        guard !id.isEmpty, let index = list.firstIndex(where: { $0.id == id }) else { return nil }
-        
-        return index
+        list.firstIndex(where: { $0.id == id })
     }
     
     // MARK: - Load
@@ -243,6 +270,7 @@ final class HomeViewModel {
     // MARK: - Update
     private func updateList(_ newItem: ToDoItem) {
         var newList = list.filter { $0.id != newItem.id }
+        changeStatistics(.created, change: list.count == newList.count)
         newList.append(newItem)
         sortList(newList)
     }
@@ -276,10 +304,10 @@ final class HomeViewModel {
             if item.isCompleted {
                 timeMin = nil
             } else {
-                let interval = item.date.timeIntervalSince(currentDate)
+                let interval = Int(item.date.timeIntervalSince(currentDate) / 60) // минут
                 timeMin = switch interval {
-                case -3600...3600:
-                    Int(interval / 60)
+                case -Constants.timeInterval...Constants.timeInterval:
+                    interval
                 case let diff where diff < 0: // прошло время
                     Int.min
                 default:
@@ -297,7 +325,6 @@ final class HomeViewModel {
     private func setList(_ list: [ToDoItem], force: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             if let self, force || self.list != list {
-                //                print("HomeViewModel: \(#function) list changed")
                 self.list = list
                 if self.timerUpdate == nil, !self.list.isEmpty {
                     self.startTimer()
@@ -310,8 +337,7 @@ final class HomeViewModel {
     public func startTimer() {
         guard self.timerUpdate == nil else { return }
         
-        if !self.list.isEmpty && self.list.first(where: { $0.timeMin != nil && $0.timeMin! > -60 }) != nil {
-            print("HomeViewModel: \(#function) timer start")
+        if !self.list.isEmpty && self.list.first(where: { $0.isActive() }) != nil {
             self.timerUpdate = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
                 self?.changeTime(self?.list)
             }
@@ -321,7 +347,6 @@ final class HomeViewModel {
     public func stopTimer() {
         if let timerUpdate {
             timerUpdate.invalidate()
-            print("HomeViewModel: \(#function) timer stop")
         }
         timerUpdate = nil
     }

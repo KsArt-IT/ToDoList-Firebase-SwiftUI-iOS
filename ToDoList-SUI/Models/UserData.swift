@@ -59,3 +59,10 @@ enum Gender: LocalizedStringResource, Codable {
         }
     }
 }
+
+enum Statistics {
+    case created
+    case active
+    case deleted
+    case completed
+}

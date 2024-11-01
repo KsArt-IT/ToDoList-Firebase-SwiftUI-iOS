@@ -9,4 +9,5 @@ import Foundation
 
 enum Constants {
     static let cornerRadius: CGFloat = 10
+    static let timeInterval: Int = 60
 }

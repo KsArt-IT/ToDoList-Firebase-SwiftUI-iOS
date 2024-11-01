@@ -54,4 +54,8 @@ extension ToDoItem {
             timeMin: timeMin ?? self.timeMin
         )
     }
+    
+    func isActive() -> Bool {
+        self.timeMin != nil && self.timeMin! > -Constants.timeInterval
+    }
 }

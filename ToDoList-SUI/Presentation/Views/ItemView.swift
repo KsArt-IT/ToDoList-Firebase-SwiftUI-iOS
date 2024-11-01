@@ -18,7 +18,7 @@ struct ItemView: View {
         guard let timeMin = item.timeMin else { return Color.clear }
         // интервал между текущей датой и датой задачи
         return switch timeMin {
-        case -60...60 where !item.isCritical, 0...60 where item.isCritical:
+        case -Constants.timeInterval...Constants.timeInterval where !item.isCritical, 0...Constants.timeInterval where item.isCritical:
                 Color.critical
             case let diff where diff < 0: // значит уже прошло время
                 Color.expired
