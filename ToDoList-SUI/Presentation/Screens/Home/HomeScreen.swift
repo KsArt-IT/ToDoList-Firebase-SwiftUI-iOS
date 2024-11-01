@@ -62,22 +62,16 @@ struct HomeScreen: View {
                         .font(.headline)
                 }
             }
-            ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Button {
-                        // Действие для профиля
-                        print("Profile tapped")
-                        viewModel.toProfile()
-                    } label: {
-                        Label("Profile", systemImage: "person.circle")
-                    }
-                    Button {
-                        viewModel.logout()
-                    } label: {
-                        Label("Logout", systemImage: "arrow.right.circle")
-                    }
+            ToolbarItemGroup(placement: .secondaryAction) {
+                Button {
+                    viewModel.toProfile()
                 } label: {
-                    Image(systemName: "ellipsis.circle")
+                    Label("Profile", systemImage: "person.circle")
+                }
+                Button {
+                    viewModel.logout()
+                } label: {
+                    Label("Logout", systemImage: "arrow.right.circle")
                 }
             }
         }
