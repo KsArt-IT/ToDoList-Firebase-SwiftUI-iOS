@@ -21,7 +21,7 @@ struct HomeScreen: View {
                     viewModel.edit()
                 }
             } else {
-                List(viewModel.list) { item in
+                List(viewModel.listSearch) { item in
                     ItemView(item: item, toggle: viewModel.toggleCompleted, action: viewModel.edit)
                         .swipeActions(edge: .trailing) {
                             Button {
@@ -74,6 +74,15 @@ struct HomeScreen: View {
                     Label("Logout", systemImage: "arrow.right.circle")
                 }
             }
+        }
+        // MARK: - Search by category
+        .searchable(
+            text: $viewModel.searchText,
+            tokens: $viewModel.selectedTokens,
+            suggestedTokens: $viewModel.suggestedTokens
+        ) { token in
+            Label(token.value.rawValue, systemImage: token.value.systemImage)
+                .font(.title2)
         }
         // MARK: - Toast, Alert
         .showToast($viewModel.toastMessage)

@@ -23,6 +23,21 @@ final class HomeViewModel {
     
     @ObservationIgnored private var timerUpdate: Timer?
     var list: [ToDoItem] = []
+    var listSearch: [ToDoItem] {
+        if list.isEmpty || searchText.isEmpty && selectedTokens.isEmpty {
+            list
+        } else {
+            list.filter { item in
+                (searchText.isEmpty || item.title.localizedCaseInsensitiveContains(searchText)) &&
+                (selectedTokens.isEmpty || selectedTokens.contains(where: { $0.value.checkStatus(item)}))
+            }
+        }
+    }
+    
+    var searchText: String = ""
+    var selectedTokens: [Category] = []
+    var suggestedTokens: [Category] = StatusCategory.allCases.map { Category(value: $0) }
+    
     // отображение прогресса выполненных задач
     var progressCompleted: Double {
         list.count > 0 ? Double(list.count(where: { $0.isCompleted })) / Double(list.count) : 0
@@ -282,7 +297,7 @@ final class HomeViewModel {
     private func setList(_ list: [ToDoItem], force: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             if let self, force || self.list != list {
-                print("HomeViewModel: \(#function) list changed")
+                //                print("HomeViewModel: \(#function) list changed")
                 self.list = list
                 if self.timerUpdate == nil, !self.list.isEmpty {
                     self.startTimer()

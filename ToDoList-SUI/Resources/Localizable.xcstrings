@@ -20,6 +20,22 @@
         }
       }
     },
+    "Active" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активные"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активі"
+          }
+        }
+      }
+    },
     "Add your first task!" : {
       "localizations" : {
         "ru" : {
@@ -80,6 +96,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Підтвердьте пароль"
+          }
+        }
+      }
+    },
+    "Critical" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Критические"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Критичні"
           }
         }
       }
@@ -209,6 +241,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Помилка"
+          }
+        }
+      }
+    },
+    "Expired" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Просроченные"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прострочені"
           }
         }
       }
