@@ -21,11 +21,7 @@ struct RegistrationScreen: View {
     
     var body: some View {
         VStack {
-            Image("loginLogo")
-                .resizable()
-                .layoutPriority(-1)
-                .scaledToFit()
-                .frame(width: 100, height: 100)
+            LoginLogoView()
             TextField("Type email", text: $viewModel.login)
                 .focused($focusedField, equals: .email)
                 .font(.body)
@@ -52,6 +48,7 @@ struct RegistrationScreen: View {
                     focusedField = .passwordConfirm  // Переключаемся на следующее поле
                 }
             SecureField("Confirm password", text: $viewModel.passwordConfirm)
+                .focused($focusedField, equals: .passwordConfirm)
                 .font(.body)
                 .padding()
                 .background()

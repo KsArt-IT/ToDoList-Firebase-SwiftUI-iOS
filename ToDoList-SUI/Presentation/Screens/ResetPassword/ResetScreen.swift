@@ -17,9 +17,7 @@ struct ResetScreen: View {
     
     var body: some View {
         VStack {
-            Image("loginLogo")
-                .resizable()
-                .frame(width: 100, height: 100)
+            LoginLogoView()
             TextField("Type email", text: $viewModel.email)
                 .focused($isFocused)
                 .font(.body)

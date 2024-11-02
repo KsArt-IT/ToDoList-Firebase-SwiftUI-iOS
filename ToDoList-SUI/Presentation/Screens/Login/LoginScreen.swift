@@ -23,11 +23,7 @@ struct LoginScreen: View {
     var body: some View {
         if viewModel.isInitialized && !viewModel.isClose {
             VStack(spacing: 16) {
-                Image("loginLogo")
-                    .resizable()
-                    .layoutPriority(-1)
-                    .scaledToFit()
-                    .frame(maxWidth: 100, maxHeight: 100)
+                LoginLogoView()
                 TextField("Type email", text: $viewModel.login)
                     .focused($focusedField, equals: .email)
                     .font(.body)
