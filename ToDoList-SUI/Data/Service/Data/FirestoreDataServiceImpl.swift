@@ -15,13 +15,13 @@ final class FirestoreDataServiceImpl: DataService {
     public var updatePublisher: AnyPublisher<ToDoDTO, Never> {
         updateSubject.eraseToAnyPublisher()
     }
-
-    private lazy var db: Firestore? = {
+    
+    private var db: Firestore? = {
         // [START setup]
-//        let settings = FirestoreSettings()
+        let settings = FirestoreSettings()
         // Set cache size to 100 MB
-//        settings.cacheSettings = PersistentCacheSettings(sizeBytes: 100 * 1024 * 1024 as NSNumber)
-//        Firestore.firestore().settings = settings
+        settings.cacheSettings = PersistentCacheSettings(sizeBytes: 100 * 1024 * 1024 as NSNumber)
+        Firestore.firestore().settings = settings
         // [END setup]
         return Firestore.firestore()
     }()
@@ -31,13 +31,6 @@ final class FirestoreDataServiceImpl: DataService {
         guard let uid = Profile.user?.id else { return nil }
         
         return db?.collection(DB.Users.name).document(uid).collection(DB.Todos.name)
-    }
-    
-    // ссылка на профиль пользователя
-    private var userRef: DocumentReference? {
-        guard let uid = Profile.user?.id else { return nil }
-        
-        return db?.collection(DB.Users.name).document(uid)
     }
     
     // получить коллекцию задач

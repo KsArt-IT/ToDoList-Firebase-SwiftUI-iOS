@@ -15,20 +15,6 @@ public enum Profile {
         }
     }
 
-    private(set) static var profile = UserData(
-        email: "",
-        name: "",
-        gender: Gender.male,
-        age: 0,
-        aboutMe: "",
-        photoUrl: "",
-        photoData: nil,
-        taskCreated: 0,
-        taskActive: 0,
-        taskDeleted: 0,
-        taskCompleted: 0
-    )
-    
     // Флаг для проверки, нужно ли перелогиниваться
     private(set) static var isRelogin: Bool = true
     // Отобразить SplashScreen если false

@@ -16,9 +16,9 @@ public enum StatusCategory: LocalizedStringKey, CaseIterable, Hashable {
     func checkStatus(_ item: ToDoItem) -> Bool {
         switch self {
         case .active:
-            item.timeMin != nil && item.timeMin! > -60
+            item.timeMin != nil && item.timeMin! > -Constants.timeInterval
         case .critical:
-            item.timeMin != nil && -60...60 ~= item.timeMin!
+            item.timeMin != nil && -Constants.timeInterval...Constants.timeInterval ~= item.timeMin!
         case .completed:
             item.timeMin == nil
         case .expired:
