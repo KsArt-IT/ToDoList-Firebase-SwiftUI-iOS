@@ -16,7 +16,7 @@ struct ResetScreen: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             LoginLogoView()
             TextField("Type email", text: $viewModel.email)
                 .focused($isFocused)
@@ -30,7 +30,6 @@ struct ResetScreen: View {
                 .onSubmit {
                     isFocused = false
                 }
-                .padding(.vertical)
             ButtonBackgroundView("Reset password", disabled: viewModel.isButtonDisabled, onClick: viewModel.resetPassword)
             Spacer()
             if !viewModel.time.isEmpty {

@@ -50,11 +50,9 @@ struct LoginScreen: View {
                     .onSubmit {
                         focusedField = nil  // Скрываем клавиатуру после завершения ввода
                     }
-                Button("Forgot your password?") {
-                    viewModel.toResetPassword()
-                }
-                .foregroundStyle(.text)
-                .frame(maxWidth: .infinity, alignment: .trailing)
+                Button("Forgot your password?", action: viewModel.toResetPassword)
+                    .foregroundStyle(.text)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 ButtonBackgroundView("Login", disabled: viewModel.isLoginDisabled, onClick: viewModel.signIn)
                 ButtonBackgroundView("Sign in with Google account", onClick: viewModel.showSignInGoogle)
                 Spacer()

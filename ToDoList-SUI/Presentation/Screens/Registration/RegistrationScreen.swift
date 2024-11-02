@@ -20,7 +20,7 @@ struct RegistrationScreen: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             LoginLogoView()
             TextField("Type email", text: $viewModel.login)
                 .focused($focusedField, equals: .email)
@@ -34,7 +34,6 @@ struct RegistrationScreen: View {
                 .onSubmit {
                     focusedField = .password  // Переключаемся на следующее поле
                 }
-                .padding(.vertical)
             SecureField("Type password", text: $viewModel.password)
                 .focused($focusedField, equals: .password)
                 .font(.body)
@@ -59,9 +58,7 @@ struct RegistrationScreen: View {
                 .onSubmit {
                     focusedField = nil  // Скрываем клавиатуру после завершения ввода
                 }
-                .padding(.vertical)
             ButtonBackgroundView("Register", disabled: viewModel.isLoginDisabled, onClick: viewModel.register)
-                .padding(.vertical)
             Spacer()
         }
         .padding()
