@@ -81,7 +81,7 @@ struct HomeScreen: View {
             tokens: $viewModel.selectedTokens,
             suggestedTokens: $viewModel.suggestedTokens
         ) { token in
-            Label(token.value.rawValue, systemImage: token.value.systemImage)
+            Label(token.rawValue, systemImage: token.systemImage)
                 .font(.title2)
         }
         // MARK: - Toast, Alert

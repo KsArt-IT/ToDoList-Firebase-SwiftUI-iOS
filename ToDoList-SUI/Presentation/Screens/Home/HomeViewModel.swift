@@ -33,14 +33,14 @@ final class HomeViewModel {
         } else {
             list.filter { item in
                 (searchText.isEmpty || item.title.localizedCaseInsensitiveContains(searchText)) &&
-                (selectedTokens.isEmpty || selectedTokens.contains(where: { $0.value.checkStatus(item)}))
+                (selectedTokens.isEmpty || selectedTokens.contains(where: { $0.checkStatus(item)}))
             }
         }
     }
     
     var searchText: String = ""
-    var selectedTokens: [Category] = []
-    var suggestedTokens: [Category] = StatusCategory.allCases.map { Category(value: $0) }
+    var selectedTokens: [StatusCategory] = []
+    var suggestedTokens: [StatusCategory] = StatusCategory.allCases
     
     // отображение прогресса выполненных задач
     var progressCompleted: Double {

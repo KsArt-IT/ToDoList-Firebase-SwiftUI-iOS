@@ -7,12 +7,16 @@
 
 import SwiftUICore
 
-public enum StatusCategory: LocalizedStringKey, CaseIterable, Hashable {
+public enum StatusCategory: LocalizedStringKey, CaseIterable, Hashable, Identifiable {
     case active = "Active"
     case critical = "Critical"
     case completed = "Completed"
     case expired = "Expired"
     
+    public var id: Self { self }
+}
+
+extension StatusCategory {
     func checkStatus(_ item: ToDoItem) -> Bool {
         switch self {
         case .active:
@@ -39,9 +43,3 @@ public enum StatusCategory: LocalizedStringKey, CaseIterable, Hashable {
         }
     }
 }
-
-struct Category: Identifiable, Hashable {
-    let id = UUID()
-    let value: StatusCategory
-}
-
