@@ -78,7 +78,7 @@ final class RegistrationViewModel {
             case .success(_):
                 // успешная регистрация, перейти на экран логина
                 await self.showToastAuth()
-                self.onLogin()
+                self.close()
             case .failure(let error):
                 self.showError(error)
             }
@@ -116,7 +116,7 @@ final class RegistrationViewModel {
     }
     
     // MARK: - Navigation
-    public func onLogin() {
+    public func close() {
         router.back()
     }
 }

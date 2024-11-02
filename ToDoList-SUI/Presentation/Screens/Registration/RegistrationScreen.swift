@@ -69,6 +69,13 @@ struct RegistrationScreen: View {
         }
         .padding()
         .navigationTitle("Registration")
+        // MARK: - Navigation Back
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                ButtonBackView(onClick: viewModel.close)
+            }
+        }
         // MARK: - Toast, Alert
         .showToast($viewModel.toastMessage)
         .showAlert($viewModel.alertMessage)

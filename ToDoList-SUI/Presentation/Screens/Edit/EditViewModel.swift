@@ -117,7 +117,7 @@ final class EditViewModel {
     
     // MARK: - Nagigation
     
-    func close() {
+    public func close() {
         print("EditViewModel: \(#function)")
         router.back()
     }

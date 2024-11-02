@@ -58,16 +58,11 @@ struct EditScreen: View {
         // MARK: - Navigation
         .navigationTitle(viewModel.newTask ? "New task" : "Edit")
         .navigationBarTitleDisplayMode(.inline)
+        // MARK: - Navigation Back
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                Button {
-                    viewModel.close()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.headline)
-                        .foregroundStyle(.accent)
-                }
+                ButtonBackView(onClick: viewModel.close)
             }
         }
         // MARK: - Toast, Alert

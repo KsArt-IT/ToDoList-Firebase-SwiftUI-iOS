@@ -43,6 +43,13 @@ struct ResetScreen: View {
         }
         .padding()
         .navigationTitle("Title Reset password")
+        // MARK: - Navigation Back
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                ButtonBackView(onClick: viewModel.close)
+            }
+        }
         // MARK: - Toast, Alert
         .showToast($viewModel.toastMessage)
         .showAlert($viewModel.alertMessage, action: viewModel.actionAlert)

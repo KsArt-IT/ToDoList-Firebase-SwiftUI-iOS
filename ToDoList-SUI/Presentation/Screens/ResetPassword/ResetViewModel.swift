@@ -109,12 +109,12 @@ final class ResetViewModel {
     public func actionAlert() {
         // если это не ошибка была показана, то перейти на логин
         if !alertMessage.isError {
-            onLogin()
+            close()
         }
     }
     
     // MARK: - Navigation
-    public func onLogin() {
+    public func close() {
         router.back()
     }
 }
