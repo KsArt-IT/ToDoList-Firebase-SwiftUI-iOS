@@ -26,8 +26,8 @@ struct ButtonBackgroundView: View {
                 .foregroundStyle(.text)
                 .padding(.vertical)
                 .frame(maxWidth: .infinity)
-                .background(disabled ? Color.background.opacity(0.5) : Color.background)
-                .cornerRadius(10)
+                .background(disabled ? Color.background.opacity(Constants.buttonDisabled) : Color.background)
+                .cornerRadius(Constants.cornerRadius)
         }
         .disabled(disabled)
     }

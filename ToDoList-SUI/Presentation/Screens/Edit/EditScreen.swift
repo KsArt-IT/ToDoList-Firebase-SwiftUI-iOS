@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct EditScreen: View {
-    @State var viewModel: EditViewModel
-    
+    @State private var viewModel: EditViewModel
+    // Сразу установим фокус на первое поле ввода
+    @FocusState private var focusedField: Field?
+    enum Field {
+        case title, text
+    }
+
     init(_ item: ToDoItem? = nil, viewModel: EditViewModel) {
         self.viewModel = viewModel
         self.viewModel.editItem(item)
@@ -17,36 +22,35 @@ struct EditScreen: View {
     
     // MARK: - Body
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             TextField("Task title", text: $viewModel.title)
+                .focused($focusedField, equals: .title)
                 .font(.headline)
                 .padding()
                 .background()
-                .cornerRadius(10)
-                .padding(.vertical)
+                .cornerRadius(Constants.cornerRadius)
+                .keyboardType(.alphabet)
+                .submitLabel(.next)
+                .onSubmit {
+                    focusedField = .text  // Переключаемся на следующее поле
+                }
             TextField("Task text", text: $viewModel.text)
+                .focused($focusedField, equals: .text)
                 .font(.subheadline)
                 .padding()
                 .background()
-                .cornerRadius(10)
+                .cornerRadius(Constants.cornerRadius)
+                .keyboardType(.alphabet)
+                .submitLabel(.done)
+                .onSubmit {
+                    focusedField = nil  // Скрываем клавиатуру после завершения ввода
+                }
             DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
-                .padding(.vertical)
             DatePicker("Time", selection: $viewModel.date, displayedComponents: .hourAndMinute)
             Toggle(isOn: $viewModel.isCritical) {
-                Text("Important task")
+                Label("Important task", systemImage: "bolt")
             }
-            .padding(.vertical)
-            Button {
-                viewModel.save()
-            } label: {
-                Text("Save")
-                    .foregroundStyle(.text)
-                    .padding(.vertical)
-                    .frame(maxWidth: .infinity)
-                    .background(viewModel.isSaveDisabled ? Color.background.opacity(0.5) : Color.background)
-                    .cornerRadius(10)
-            }
-            .disabled(viewModel.isSaveDisabled)
+            ButtonBackgroundView("Save", disabled: viewModel.isSaveDisabled, onClick: viewModel.save)
             
             Spacer()
         }
@@ -72,6 +76,9 @@ struct EditScreen: View {
         // MARK: - Background
         .background {
             BackgroundView()
+        }
+        .onAppear {
+            focusedField = .title
         }
     }
 }
