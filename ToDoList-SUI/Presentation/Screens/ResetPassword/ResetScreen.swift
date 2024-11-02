@@ -19,6 +19,7 @@ struct ResetScreen: View {
         VStack(spacing: 16) {
             LoginLogoView()
             TextField("Type email", text: $viewModel.email)
+                .textContentType(.emailAddress)
                 .focused($isFocused)
                 .font(.body)
                 .padding()

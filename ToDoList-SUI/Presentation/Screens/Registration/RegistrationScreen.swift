@@ -23,6 +23,7 @@ struct RegistrationScreen: View {
         VStack(spacing: 16) {
             LoginLogoView()
             TextField("Type email", text: $viewModel.login)
+                .textContentType(.emailAddress)
                 .focused($focusedField, equals: .email)
                 .font(.body)
                 .padding()
@@ -35,6 +36,7 @@ struct RegistrationScreen: View {
                     focusedField = .password  // Переключаемся на следующее поле
                 }
             SecureField("Type password", text: $viewModel.password)
+                .textContentType(.newPassword)
                 .focused($focusedField, equals: .password)
                 .font(.body)
                 .padding()
@@ -47,6 +49,7 @@ struct RegistrationScreen: View {
                     focusedField = .passwordConfirm  // Переключаемся на следующее поле
                 }
             SecureField("Confirm password", text: $viewModel.passwordConfirm)
+                .textContentType(.newPassword)
                 .focused($focusedField, equals: .passwordConfirm)
                 .font(.body)
                 .padding()

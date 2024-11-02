@@ -25,6 +25,7 @@ struct LoginScreen: View {
             VStack(spacing: 16) {
                 LoginLogoView()
                 TextField("Type email", text: $viewModel.login)
+                    .textContentType(.emailAddress)
                     .focused($focusedField, equals: .email)
                     .font(.body)
                     .layoutPriority(1)
@@ -38,6 +39,7 @@ struct LoginScreen: View {
                         focusedField = .password  // Переключаемся на следующее поле
                     }
                 SecureField("Type password", text: $viewModel.password)
+                    .textContentType(.password)
                     .focused($focusedField, equals: .password)
                     .font(.body)
                     .layoutPriority(1)
