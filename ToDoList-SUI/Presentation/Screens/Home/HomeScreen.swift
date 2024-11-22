@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    // получим тему на устройстве
+    @Environment(\.colorScheme) private var colorScheme
+    // сохраним-загрузим выбранную тему
+    @AppStorage("appTheme") private var appTheme = AppTheme.device
+    
     @State private var viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
@@ -50,6 +55,8 @@ struct HomeScreen: View {
                     .padding()
             }
         }
+        // MARK: - Color Theme
+        .preferredColorScheme(appTheme.scheme(colorScheme))
         // MARK: - Navigation
         .navigationTitle("To Do List")
         .navigationBarTitleDisplayMode(.inline)
@@ -62,17 +69,13 @@ struct HomeScreen: View {
                         .font(.headline)
                 }
             }
-            ToolbarItemGroup(placement: .secondaryAction) {
-                Button {
+            ToolbarItem(placement: .primaryAction) {
+                HomeToolbarMenu(theme: $appTheme) {
                     viewModel.toProfile()
-                } label: {
-                    Label("Profile", systemImage: "person.circle")
-                }
-                Button {
+                } logout: {
                     viewModel.logout()
-                } label: {
-                    Label("Logout", systemImage: "arrow.right.circle")
                 }
+
             }
         }
         // MARK: - Search by category
