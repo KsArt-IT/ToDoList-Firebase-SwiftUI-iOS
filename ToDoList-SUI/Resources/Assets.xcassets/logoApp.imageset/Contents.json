@@ -1,17 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "logo-app@1x.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
       "filename" : "logo-app-light@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
@@ -28,17 +17,6 @@
       "scale" : "1x"
     },
     {
-      "filename" : "logo-app@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
       "filename" : "logo-app-light@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
@@ -55,17 +33,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "logo-app@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "light"
-        }
-      ],
       "filename" : "logo-app-light@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
