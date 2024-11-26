@@ -185,7 +185,6 @@ final class LoginViewModel {
     
     private func showToastAuth() async {
         showToast(String(localized: "Successful authorization"))
-//        sleep(4)
     }
     
     private func showToast(_ message: String) {
@@ -199,7 +198,7 @@ final class LoginViewModel {
     private func showSplashIfNeed() async {
         if !Profile.isInitialized {
             // пауза на отображение splashscreen
-            sleep(2)
+            try? await Task.sleep(nanoseconds: Constants.timeSplashVisible)
         }
     }
     
@@ -209,7 +208,6 @@ final class LoginViewModel {
     }
     
     private func toHome() {
-        //        guard !isCanClick else { return }
         isClose = true
         Profile.initialize()
         router.navigateToRoot()
